@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private const float FORCEDGRAVITY = 20f;
+    private const float GROUNDDETECTIONRADIUS = 0.02f;
 
     [SerializeField]
     private float playerSpeed = 4f;
@@ -19,7 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            Collider[] collisions = Physics.OverlapSphere(GroundDetectionPoint, 0.1f);
+            Collider[] collisions = Physics.OverlapSphere(GroundDetectionPoint, GROUNDDETECTIONRADIUS);
 
             if (collisions.Length > 0)
                 return true;
@@ -63,6 +64,6 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.magenta;
 
-        Gizmos.DrawSphere(GroundDetectionPoint, 0.1f);
+        Gizmos.DrawSphere(GroundDetectionPoint, GROUNDDETECTIONRADIUS);
     }
 }
