@@ -4,23 +4,16 @@ using UnityEngine;
 
 public class Storage : MonoBehaviour
 {
-    private const int space = 5;
+    private const int SPACE = 5;
 
     [SerializeField]
     private Item[] items;
 
-    public Item[] Items => items;
-
-    [SerializeField]
-    private Item tempItem0;
-    [SerializeField]
-    private Item tempItem1;
+    public IReadOnlyList<Item> Items => items;
 
     private void Awake()
     {
-        items = new Item[space];
-        items[0] = tempItem0;
-        items[1] = tempItem1;
+        items = new Item[SPACE];
     }
 
     public bool AddItem(Item inItem)

@@ -34,15 +34,14 @@ public class UIManager : MonoBehaviour
             Destroy(itemsPanel.transform.GetChild(i).gameObject);
         }
 
-        for (int i = 0; i < storage.Items.Length; i++)
+        for (int i = 0; i < storage.Items.Count; i++)
         {
-            if(storage.Items[i] == null)
+            if(storage.Items[i] != null)
             {
-                continue;
-            }
+                GameObject newItemUI = Instantiate(itemUIPrefab, itemsPanel.transform);
 
-            GameObject newItemUI = Instantiate(itemUIPrefab, itemsPanel.transform);
-            newItemUI.GetComponent<ItemUI>().UpdateItemInfo(storage.Items[i]);
+                newItemUI.GetComponent<ItemUI>().UpdateItemInfo(storage.Items[i]);
+            }
         }
     }
 }
