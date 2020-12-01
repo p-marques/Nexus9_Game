@@ -11,6 +11,8 @@ public class InteractionPanel : MonoBehaviour
 
     public void UpdateInteractionPanel(IInteractable interactable)
     {
+        Debug.Log($"Updating interaction panel with: {interactable}");
+
         if (interactable != null)
         {
             interactionTextObject.text = interactable.InteractionText;

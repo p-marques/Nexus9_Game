@@ -5,10 +5,8 @@ public class Interactor : MonoBehaviour
     private const float RAYCAST_DISTANCE = 30f;
 
     [SerializeField]
-    [Tooltip("Event to raise every time the Interactor's Raycast result changes.")]
-    private NexusEvent<IInteractable> eventOnChange;
+    private IInteractableVariable currentInteractable;
 
-    private IInteractable currentInteractable;
     private Transform cameraTransform;
 
     private void Awake()
@@ -33,11 +31,6 @@ public class Interactor : MonoBehaviour
             }
         }
 
-        if (currentInteractable != hitInteractable)
-        {
-            currentInteractable = hitInteractable;
-
-            eventOnChange.Raise(currentInteractable);
-        }
+        currentInteractable.Value = hitInteractable;
     }
 }
