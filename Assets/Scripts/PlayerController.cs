@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private const float FORCEDGRAVITY = 20f;
+    private const float FORCED_GRAVITY = 20f;
 
     [SerializeField]
-    private float playerSpeed = 4f;
+    private float moveSpeed = 4f;
 
     [SerializeField]
     [Range(0.01f, 0.1f)]
@@ -47,11 +47,11 @@ public class PlayerController : MonoBehaviour
 
         Vector3 moveDirection = transform.right * inputStrafe + transform.forward * inputForward;
 
-        moveDirection *= playerSpeed * Time.fixedDeltaTime;
+        moveDirection *= moveSpeed * Time.fixedDeltaTime;
 
         if (!IsGrounded)
         {
-            moveDirection.y -= FORCEDGRAVITY;
+            moveDirection.y -= FORCED_GRAVITY;
         }
 
         characterController.Move(moveDirection);
