@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Storage : MonoBehaviour
+[CreateAssetMenu(menuName = "Scriptable Objects/Storage")]
+public class Storage : ScriptableObject
 {
     private const int SPACE = 5;
 
@@ -11,13 +12,11 @@ public class Storage : MonoBehaviour
 
     public IReadOnlyList<Item> Items => items;
 
-    private void Awake()
-    {
-        items = new Item[SPACE];
-    }
-
     public bool AddItem(Item inItem)
     {
+        if (items.Length == 0)
+            items = new Item[SPACE];
+
         for (int i = 0; i < items.Length; i++)
         {
             if (items[i] == null)
