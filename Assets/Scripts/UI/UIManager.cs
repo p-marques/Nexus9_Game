@@ -4,9 +4,5 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject itemsPanel;
-
-    [SerializeField]
-    private GameObject itemUIPrefab;
+    
 }

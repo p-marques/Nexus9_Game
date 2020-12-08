@@ -6,7 +6,7 @@ public class IInteractableVariable : ScriptableObject
     private IInteractable value;
 
     [SerializeField]
-    [Tooltip("Event raised on value change.")]
+    [Tooltip("Event raised on value change")]
     private NexusEvent<IInteractable> eventOnValueChanged;
 
     public IInteractable Value

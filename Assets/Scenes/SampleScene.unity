@@ -640,7 +640,7 @@ GameObject:
   - component: {fileID: 1039744837}
   - component: {fileID: 1039744836}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -658,8 +658,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a309fe0c486364c93412198e91722e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemsPanel: {fileID: 1726795600}
-  itemUIPrefab: {fileID: 9072240128768887804, guid: 46fd6b57cd5e76441954a4d47cbfcf00, type: 3}
 --- !u!114 &1039744837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,7 +752,7 @@ GameObject:
   - component: {fileID: 1049220678}
   - component: {fileID: 1049220677}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Reticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -777,7 +775,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_SizeDelta: {x: 3, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1049220677
 MonoBehaviour:
@@ -1257,13 +1255,42 @@ GameObject:
   - component: {fileID: 1726795603}
   - component: {fileID: 1726795602}
   - component: {fileID: 1726795604}
+  - component: {fileID: 1726795601}
   m_Layer: 5
-  m_Name: InventoryUI
+  m_Name: UIInventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1726795601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726795600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5727258c1efc34c80fc99b607b86be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nexusEvent: {fileID: 11400000, guid: 17bcab289ea298d4db59aa3f8d75dd49, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1726795604}
+        m_TargetAssemblyTypeName: UIInventory, Assembly-CSharp
+        m_MethodName: UpdateContents
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1726795602
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2059,7 +2086,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2085281527
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2092,16 +2119,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 20
+    m_Left: 0
     m_Right: 0
-    m_Top: 20
+    m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 20
-  m_ChildForceExpandWidth: 1
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0

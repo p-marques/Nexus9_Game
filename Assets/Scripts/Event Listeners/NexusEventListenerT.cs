@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class NexusEventListener : MonoBehaviour
+public class NexusEventListener<T> : MonoBehaviour
 {
     [SerializeField]
-    private NexusEvent nexusEvent;
+    private NexusEvent<T> nexusEvent;
 
     [SerializeField]
-    private UnityEvent response;
+    private UnityEvent<T> response;
 
     private void OnEnable()
     {
@@ -19,8 +19,8 @@ public class NexusEventListener : MonoBehaviour
         nexusEvent.Unsubscribe(this);
     }
 
-    public void OnEventRaised()
+    public void OnEventRaised(T value)
     {
-        response.Invoke();
+        response.Invoke(value);
     }
 }

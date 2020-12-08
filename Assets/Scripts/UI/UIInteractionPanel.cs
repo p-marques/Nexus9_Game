@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class InteractionPanel : MonoBehaviour
+public class UIInteractionPanel : MonoBehaviour
 {
     [SerializeField]
     private GameObject panel;

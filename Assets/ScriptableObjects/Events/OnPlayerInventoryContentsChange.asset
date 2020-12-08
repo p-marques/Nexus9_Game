@@ -9,13 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d0fb5a637891964e97e1a0ad02c7bba, type: 3}
-  m_Name: PlayerInventory
+  m_Script: {fileID: 11500000, guid: 1bebe7f255c527544851d7b4c6763cd4, type: 3}
+  m_Name: OnPlayerInventoryContentsChange
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  eventOnContentChanged: {fileID: 11400000, guid: 17bcab289ea298d4db59aa3f8d75dd49, type: 2}

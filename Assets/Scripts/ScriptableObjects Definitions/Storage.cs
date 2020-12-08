@@ -9,7 +9,13 @@ public class Storage : ScriptableObject
     [SerializeField]
     private Item[] items;
 
+    [SerializeField]
+    [Tooltip("Event raised every time an item is added or removed")]
+    private NexusEvent eventOnContentChanged;
+
     public IReadOnlyList<Item> Items => items;
+
+    public int Space => SPACE;
 
     private void OnEnable()
     {
@@ -23,6 +29,9 @@ public class Storage : ScriptableObject
             if (items[i] == null)
             {
                 items[i] = inItem;
+
+                if (eventOnContentChanged) eventOnContentChanged.Raise();
+
                 return true;
             }
         }
@@ -37,6 +46,8 @@ public class Storage : ScriptableObject
             if (items[i] == inItem)
             {
                 items[i] = null;
+
+                if (eventOnContentChanged) eventOnContentChanged.Raise();
             }
         }
     }
