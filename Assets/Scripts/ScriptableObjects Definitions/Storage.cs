@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Storage")]
@@ -12,11 +11,13 @@ public class Storage : ScriptableObject
 
     public IReadOnlyList<Item> Items => items;
 
+    private void OnEnable()
+    {
+        items = new Item[SPACE];
+    }
+
     public bool AddItem(Item inItem)
     {
-        if (items.Length == 0)
-            items = new Item[SPACE];
-
         for (int i = 0; i < items.Length; i++)
         {
             if (items[i] == null)
@@ -38,5 +39,16 @@ public class Storage : ScriptableObject
                 items[i] = null;
             }
         }
+    }
+
+    public bool HasItem(Item inItem)
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] == inItem)
+                return true;
+        }
+
+        return false;
     }
 }

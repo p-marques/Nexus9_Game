@@ -17,13 +17,25 @@ public class CollectableItem : MonoBehaviour, IInteractable
     private void Awake()
     {
         if (!item)
-        {
-            Debug.Log("CollectableItem's item to collect is EMPTY!");
-        }
+            Debug.LogError($"{name} doesn't have a item set to be picked up.");
     }
 
-    public void Interact()
+    public void Interact(Player player)
     {
-        Debug.Log($"Interact");
+        Storage playerInventory = player.Inventory;
+
+        if (playerInventory)
+        {
+            if (playerInventory.AddItem(item))
+            {
+                Destroy(gameObject);
+                
+                Debug.Log($"Player picked up \"{item.ItemName}\".");
+            }
+            else
+                Debug.LogWarning($"Player failed to pick up {item.ItemName}. Inventory full?"); // TODO: Notify UI
+        }
+        else
+            Debug.LogError("Can't pick up item because there is no reference to the player's inventory.");
     }
 }

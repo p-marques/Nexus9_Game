@@ -482,6 +482,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionText: Open Door
+  playerNeedsItem: 0
+  necessaryItem: {fileID: 0}
 --- !u!65 &680147180
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1209,6 +1211,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionText: Open Door
+  playerNeedsItem: 1
+  necessaryItem: {fileID: 11400000, guid: 7341c3a0bd590cf4cad3703d7abf81c2, type: 2}
 --- !u!1 &1631137277
 GameObject:
   m_ObjectHideFlags: 0

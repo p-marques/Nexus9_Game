@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using NaughtyAttributes;
 
 public class Door : MonoBehaviour, IInteractable
 {
@@ -7,12 +8,36 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField]
     private string interactionText;
 
+    [SerializeField]
+    private bool playerNeedsItem;
+
+    [SerializeField]
+    [ShowIf("playerNeedsItem")]
+    [Tooltip("Item that the player needs to have to successfully interact")]
+    private Item necessaryItem;
+
     public string InteractionText => interactionText;
 
     public float Range => RANGE;
 
-    public void Interact()
+    public void Interact(Player player)
     {
-        Debug.Log($"{InteractionText}");
+        if (playerNeedsItem)
+        {
+            if (!necessaryItem)
+            {
+                Debug.LogError("Item that the player needs to open door is not set!");
+                return;
+            }
+
+            if (player.Inventory.HasItem(necessaryItem))
+            {
+                Debug.Log("Door opens...");
+            }
+            else
+                Debug.Log("Can't open door because player doesn't have necessary item.");
+        }
+        else
+            Debug.Log("Door opens...");
     }
 }

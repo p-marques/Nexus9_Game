@@ -8,10 +8,15 @@ public class Interactor : MonoBehaviour
     private IInteractableVariable currentInteractable;
 
     private Transform cameraTransform;
+    private Player playerRef;
 
     private void Awake()
     {
         cameraTransform = GetComponentInChildren<Camera>().transform;
+        playerRef = GetComponent<Player>();
+
+        if (!playerRef)
+            Debug.LogError("Interactor failed to find component Player!");
     }
 
     private void Update()
@@ -32,5 +37,10 @@ public class Interactor : MonoBehaviour
         }
 
         currentInteractable.Value = hitInteractable;
+
+        if (currentInteractable.Value != null && Input.GetKeyDown(KeyCode.E))
+        {
+            currentInteractable.Value.Interact(playerRef);
+        }
     }
 }

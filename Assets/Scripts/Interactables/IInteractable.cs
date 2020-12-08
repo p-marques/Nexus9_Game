@@ -4,5 +4,5 @@
 
     string InteractionText { get; }
 
-    void Interact();
+    void Interact(Player player);
 }

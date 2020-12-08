@@ -1,9 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     [SerializeField]
     private Storage inventory;
+
+    public Storage Inventory => inventory;
+
+    private void Awake()
+    {
+        if (!inventory)
+            Debug.LogError("Player doesn't have an inventory!");
+    }
 }
