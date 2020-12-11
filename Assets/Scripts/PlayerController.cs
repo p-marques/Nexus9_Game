@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 GroundDetectionPoint => transform.parent.transform.position - new Vector3(0, 1f, 0);
 
+    public bool CanMove { get; set; }
+
     private bool IsGrounded
     {
         get
@@ -42,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!characterController)
+        if (!characterController || !CanMove)
             return;
 
         Vector3 moveDirection = transform.right * inputStrafe + transform.forward * inputForward;

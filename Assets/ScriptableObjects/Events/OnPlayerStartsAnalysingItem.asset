@@ -9,9 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45d491c650bd622449ba391cee4b87e9, type: 3}
-  m_Name: Card
+  m_Script: {fileID: 11500000, guid: e1ff78a3a73c2ef41b6289c1a75609a0, type: 3}
+  m_Name: OnPlayerStartsAnalysingItem
   m_EditorClassIdentifier: 
-  itemName: card
-  metadata: this is a keycard
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}

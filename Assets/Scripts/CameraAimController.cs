@@ -13,9 +13,24 @@ public class CameraAimController : MonoBehaviour
     private float maxLookDownRotation = 60f;
     
     private Transform parentTransform;
+    private AudioListener audioListener;
+    private bool canMove;
 
     private float inputMouseX;
     private float inputMouseY;
+
+    public bool CanMove
+    {
+        get => canMove;
+        set
+        {
+            if (!audioListener)
+                audioListener = GetComponent<AudioListener>();
+
+            audioListener.enabled = value;
+            canMove = value;
+        }
+    }
 
     private void Awake()
     {
@@ -29,6 +44,9 @@ public class CameraAimController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!CanMove)
+            return;
+
         HandleCameraPitch();
 
         HandleParentRotation();

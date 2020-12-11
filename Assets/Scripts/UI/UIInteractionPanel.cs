@@ -13,7 +13,7 @@ public class UIInteractionPanel : MonoBehaviour
     {
         if (interactable != null)
         {
-            interactionTextObject.text = interactable.InteractionText;
+            interactionTextObject.text = $"E) {interactable.InteractionText}";
 
             panel.SetActive(true);
         }

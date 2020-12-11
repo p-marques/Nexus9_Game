@@ -12,11 +12,11 @@ public class Interactor : MonoBehaviour
 
     private void Awake()
     {
-        cameraTransform = GetComponentInChildren<Camera>().transform;
+        cameraTransform = GetComponentInChildren<Camera>(true).transform;
         playerRef = GetComponent<Player>();
 
-        if (!playerRef)
-            Debug.LogError("Interactor failed to find component Player!");
+        //if (!playerRef)
+        //    Debug.LogError("Interactor failed to find component Player!");
     }
 
     private void Update()

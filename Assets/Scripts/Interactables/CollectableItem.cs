@@ -1,18 +1,32 @@
 ﻿using UnityEngine;
 
-public class CollectableItem : MonoBehaviour, IInteractable
+public class CollectableItem : MonoBehaviour, IInteractableItem
 {
     private const float RANGE = 2f;
+    private const string INTERACTION_TEXT_ANALYSE = "Analyse";
 
     [SerializeField]
     private Item item;
 
     [SerializeField]
-    private string interactionText;
+    private ItemNexusEvent onAnalyseEvent;
 
-    public string InteractionText => interactionText;
+    private bool hasBeenAnalysed;
+
+    public string InteractionText => hasBeenAnalysed ? item.ItemName : INTERACTION_TEXT_ANALYSE;
 
     public float Range => RANGE;
+
+    public Item Item => item;
+
+    public bool HasBeenAnalysed
+    {
+        get => hasBeenAnalysed;
+        set
+        {
+            hasBeenAnalysed = value;
+        }
+    }
 
     private void Awake()
     {
@@ -22,6 +36,13 @@ public class CollectableItem : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
+        if (!hasBeenAnalysed)
+        {
+            onAnalyseEvent.Raise(this);
+
+            return;
+        }
+
         Storage playerInventory = player.Inventory;
 
         if (playerInventory)
