@@ -5,14 +5,15 @@ public class PlayerNormalState : IPlayerState
     private const float FORCED_GRAVITY = 20f;
 
     private readonly Player playerRef;
+    private readonly NexusEvent onToggleInventoryUIShow;
     private float inputForward;
     private float inputStrafe;
 
     private Vector3 GroundDetectionPoint =>
         CurrentControlledCharacter.transform.position - new Vector3(0, 1f, 0);
 
-    public Camera CurrentControlledCamera { get; set; }
-    public CharacterController CurrentControlledCharacter { get; set; }
+    public Camera CurrentControlledCamera { get; protected set; }
+    public CharacterController CurrentControlledCharacter { get; protected set; }
 
     private bool IsGrounded
     {
@@ -27,9 +28,11 @@ public class PlayerNormalState : IPlayerState
         }
     }
 
-    public PlayerNormalState(Player player)
+    public PlayerNormalState(Player player, NexusEvent toggleInventoryUIEvent)
     {
         playerRef = player;
+
+        onToggleInventoryUIShow = toggleInventoryUIEvent;
     }
 
     public virtual void OnEnter() 
@@ -60,6 +63,13 @@ public class PlayerNormalState : IPlayerState
     {
         inputForward = Input.GetAxis("Forward");
         inputStrafe = Input.GetAxis("Strafe");
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (!onToggleInventoryUIShow) return;
+
+            onToggleInventoryUIShow.Raise();
+        }
     }
 
     public virtual void OnExit() 

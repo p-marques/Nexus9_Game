@@ -24,12 +24,9 @@ public class UIInventory : MonoBehaviour
         CreateInventorySlots();
     }
 
-    private void Update()
+    public void ToggleVisibility()
     {
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            layoutGroup.SetActive(!layoutGroup.activeInHierarchy);
-        }
+        layoutGroup.SetActive(!layoutGroup.activeInHierarchy);
     }
 
     public void UpdateContents()

@@ -17,11 +17,16 @@ public class Player : MonoBehaviour
     [Tooltip("Event fired entering/exiting hijack")]
     private NexusEvent onHijackChangeEvent;
 
+    [SerializeField]
+    [Tooltip("Event: toggle ON/OFF Inventory UI")]
+    private NexusEvent inventoryUIToggleEvent;
+
     private StateMachine<IPlayerState> stateMachine;
 
     public Storage Inventory => inventory;
     public float MoveSpeed => moveSpeed;
     public float GroundDetectionRadius => groundDetectionRadius;
+    public IInteractable CurrentInteraction { get; set; }
     public IHijackable CurrentHijack { get; set; }
     public Camera CurrentCamera => stateMachine?.CurrentState.CurrentControlledCamera;
 
@@ -31,13 +36,20 @@ public class Player : MonoBehaviour
 
         stateMachine = new StateMachine<IPlayerState>();
 
-        PlayerNormalState normalState = new PlayerNormalState(this);
-        PlayerHijackState hijackState = new PlayerHijackState(this);
+        PlayerNormalState normalState = new PlayerNormalState(this, inventoryUIToggleEvent);
+        PlayerHijackState hijackState = new PlayerHijackState(this, inventoryUIToggleEvent);
+        PlayerInteractionState interactionState = new PlayerInteractionState(this);
 
         stateMachine.SetState(normalState);
 
         stateMachine.AddTransition(normalState, hijackState, () => CurrentHijack != null, onHijackChangeEvent.Raise);
         stateMachine.AddTransition(hijackState, normalState, () => CurrentHijack == null, onHijackChangeEvent.Raise);
+
+        stateMachine.AddTransition(normalState, interactionState, () => CurrentInteraction != null);
+        stateMachine.AddTransition(interactionState, normalState, () => CurrentInteraction == null && CurrentHijack == null);
+
+        stateMachine.AddTransition(hijackState, interactionState, () => CurrentInteraction != null);
+        stateMachine.AddTransition(interactionState, hijackState, () => CurrentInteraction == null && CurrentHijack != null);
     }
 
     private void FixedUpdate() => stateMachine.PhysicsTick();

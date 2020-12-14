@@ -19,6 +19,13 @@ public class Interactor : MonoBehaviour
 
     private void Update()
     {
+        if (!playerRef.CurrentCamera)
+        {
+            currentInteractable.Value = null;
+
+            return;
+        }
+
         Transform cameraTransform = playerRef.CurrentCamera.transform;
         IInteractable hitInteractable = null;
 

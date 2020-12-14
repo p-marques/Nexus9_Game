@@ -2,6 +2,6 @@
 
 public interface IPlayerState : IState
 {
-    CharacterController CurrentControlledCharacter { get; set; }
-    Camera CurrentControlledCamera { get; set; }
+    CharacterController CurrentControlledCharacter { get; }
+    Camera CurrentControlledCamera { get; }
 }

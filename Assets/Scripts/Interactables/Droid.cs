@@ -15,8 +15,6 @@ public class Droid : MonoBehaviour, IHijackable
 
     public void Interact(Player player)
     {
-        Debug.Log($"HIJACK!");
-
         player.CurrentHijack = this;
     }
 }

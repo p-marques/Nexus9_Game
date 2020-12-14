@@ -4,7 +4,8 @@ public class PlayerHijackState : PlayerNormalState
 {
     private readonly Player playerRef;
 
-    public PlayerHijackState(Player player) : base(player)
+    public PlayerHijackState(Player player, NexusEvent toggleInventoryUIEvent) 
+        : base(player, toggleInventoryUIEvent)
     {
         playerRef = player;
     }

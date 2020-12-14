@@ -28,6 +28,8 @@ public class CameraAimController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!playerRef.CurrentCamera) return;
+
         Transform camTransform = playerRef.CurrentCamera.transform;
 
         HandleCameraPitch(camTransform);
