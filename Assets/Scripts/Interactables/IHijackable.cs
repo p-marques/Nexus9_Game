@@ -1,4 +1,6 @@
-﻿public interface IHijackable : IInteractable
+﻿using UnityEngine;
+
+public interface IHijackable : IInteractable
 {
-    
+    Transform Transform { get; }
 }

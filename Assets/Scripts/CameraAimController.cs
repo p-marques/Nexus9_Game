@@ -1,40 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraAimController : MonoBehaviour
 {
     [SerializeField]
     [Range(10, 300)]
     private float mouseSensitivity = 230f;
+
     [SerializeField]
     private float maxLookUpRotation = 80f;
+
     [SerializeField]
     private float maxLookDownRotation = 60f;
-    
-    private Transform parentTransform;
-    private AudioListener audioListener;
-    private bool canMove;
 
+    private Player playerRef;
     private float inputMouseX;
     private float inputMouseY;
 
-    public bool CanMove
-    {
-        get => canMove;
-        set
-        {
-            if (!audioListener)
-                audioListener = GetComponent<AudioListener>();
-
-            audioListener.enabled = value;
-            canMove = value;
-        }
-    }
-
     private void Awake()
     {
-        parentTransform = gameObject.transform.parent;
+        playerRef = GetComponent<Player>();
     }
 
     private void Start()
@@ -44,12 +28,11 @@ public class CameraAimController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!CanMove)
-            return;
+        Transform camTransform = playerRef.CurrentCamera.transform;
 
-        HandleCameraPitch();
+        HandleCameraPitch(camTransform);
 
-        HandleParentRotation();
+        HandleParentRotation(camTransform);
     }
 
     private void Update()
@@ -58,9 +41,9 @@ public class CameraAimController : MonoBehaviour
         inputMouseY = Input.GetAxis("Mouse Y");
     }
 
-    private void HandleCameraPitch()
+    private void HandleCameraPitch(Transform camTransform)
     {
-        Vector3 cameraRotation = transform.localRotation.eulerAngles;
+        Vector3 cameraRotation = camTransform.localRotation.eulerAngles;
         
         cameraRotation.x -= inputMouseY * mouseSensitivity * Time.fixedDeltaTime;
 
@@ -73,11 +56,11 @@ public class CameraAimController : MonoBehaviour
             cameraRotation.x = Mathf.Min(cameraRotation.x, maxLookDownRotation);
         }
 
-        transform.localRotation = Quaternion.Euler(cameraRotation.x, 0f, 0f);
+        camTransform.localRotation = Quaternion.Euler(cameraRotation.x, 0f, 0f);
     }
 
-    private void HandleParentRotation()
+    private void HandleParentRotation(Transform camTransform)
     {
-        parentTransform.Rotate(Vector3.up * inputMouseX * Time.fixedDeltaTime * mouseSensitivity);
+        camTransform.parent.Rotate(Vector3.up * inputMouseX * Time.fixedDeltaTime * mouseSensitivity);
     }
 }

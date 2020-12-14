@@ -6,21 +6,20 @@ public class Interactor : MonoBehaviour
 
     [SerializeField]
     private IInteractableVariable currentInteractable;
-
-    private Transform cameraTransform;
+    
     private Player playerRef;
 
     private void Awake()
     {
-        cameraTransform = GetComponentInChildren<Camera>(true).transform;
         playerRef = GetComponent<Player>();
 
-        //if (!playerRef)
-        //    Debug.LogError("Interactor failed to find component Player!");
+        if (!playerRef)
+            Debug.LogError("Interactor failed to find component Player!");
     }
 
     private void Update()
     {
+        Transform cameraTransform = playerRef.CurrentCamera.transform;
         IInteractable hitInteractable = null;
 
         bool hasHit = Physics.Raycast(cameraTransform.position, cameraTransform.forward, 

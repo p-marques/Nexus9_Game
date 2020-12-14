@@ -9,6 +9,11 @@ public class UIInteractionPanel : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI interactionTextObject;
 
+    private void Start()
+    {
+        panel.SetActive(false);
+    }
+
     public void UpdateInteractionPanel(IInteractable interactable)
     {
         if (interactable != null)
