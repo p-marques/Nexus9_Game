@@ -8,5 +8,9 @@ public class TerminalData : ScriptableObject
     [SerializeField]
     private TerminalUser[] users;
 
+    [SerializeField]
+    private TerminalCS[] controlSystems;
+
     public TerminalUser[] Users => users;
+    public TerminalCS[] ControlSystems => controlSystems;
 }

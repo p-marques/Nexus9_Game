@@ -1,8 +1,13 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
+using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Terminals/Terminal User", order = 2)]
 public class TerminalUser : ScriptableObject
 {
+    [SerializeField]
+    [ReadOnly]
+    private bool isUnlocked = false;
+
     [SerializeField]
     private string userName;
 
@@ -14,21 +19,22 @@ public class TerminalUser : ScriptableObject
 
     public string Id => userName.Replace(" ", "").ToLower();
     public TerminalCommunication[] Communications => communications;
-    public bool IsUnlocked { get; private set; }
+
+    public bool IsUnlocked => isUnlocked;
 
     private void Awake()
     {
-        IsUnlocked = false;
+        isUnlocked = false;
     }
 
     public bool Unlock(string inPassword)
     {
-        if (IsUnlocked)
+        if (isUnlocked)
             Debug.LogWarning($"{userName} was already unlocked and yet Unlock() was called.");
         else
-            IsUnlocked = password == inPassword;
+            isUnlocked = password == inPassword;
 
-        return IsUnlocked;
+        return isUnlocked;
     }
 
     public override string ToString()
@@ -45,5 +51,10 @@ public class TerminalUser : ScriptableObject
         }
 
         return value;
+    }
+
+    public void Reset()
+    {
+        isUnlocked = false;
     }
 }

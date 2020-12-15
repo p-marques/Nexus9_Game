@@ -1,5 +1,7 @@
 ﻿public enum TLinkState
 {
     Auth,
-    Normal
+    LoggedIn,
+    COMMS,
+    ControlSystems
 }

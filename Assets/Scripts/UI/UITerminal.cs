@@ -6,35 +6,64 @@ using UnityEngine;
 public class UITerminal : MonoBehaviour
 {
     private const byte PROCESSING_DOTS = 3;
-    private const float PROCESSING_TIME = 2f;
-    private const float WRITE_INTERVAL = 0.01f;
-    private const string WELCOME = "Welcome to TERRELL Corporation (TM) TLink";
-    private const string LOADING_AUTH = "Loading TERRELL (C) Authentication Tool v3.1";
-    private const string FINISHED = "FINISHED";
-    private const string GUEST_PROFILES = "Guest profiles";
-    private const string NONE = "None";
-    private const string PROFILES = "Profiles";
-    private const string PROFILES_LIST = "profiles --list";
+    private const float PROCESSING_TIME = 0.5f;
+    private const float PAGE_TO_PAGE_INTERVAL = 3f;
+    private const float LINE_BY_LINE_INTERVAL = 1f;
+
+    [Header("Bios Post")]
+    [SerializeField]
+    private GameObject biosPostWrapper;
 
     [SerializeField]
-    private TerminalVariable terminalVariable;
+    private GameObject biosPostTerrellHeader;
 
     [SerializeField]
-    private TextMeshProUGUI terminalOutput;
+    private TextMeshProUGUI biosPostMainField;
 
     [SerializeField]
-    private TextMeshProUGUI userId;
+    private TextMeshProUGUI biosPostSecondaryField;
+
+    [Header("Splash Screen")]
+    [SerializeField]
+    private GameObject splashScreenWrapper;
+
+    [SerializeField]
+    private GameObject tLinkVersionField;
+
+    [Header("Console")]
+    [SerializeField]
+    private GameObject consoleWrapper;
+
+    [SerializeField]
+    private TextMeshProUGUI consoleOutput;
+
+    [SerializeField]
+    private GameObject userInputWrapper;
+
+    [SerializeField]
+    private TextMeshProUGUI userInputIdentifier;
 
     [SerializeField]
     private TMP_InputField inputField;
 
+    [Header("Terminal Data")]
+    [SerializeField]
+    private TerminalVariable terminalVariable;
+
     private TLink tLink;
-    private bool isBusy;
-    private WaitUntil waitUntilNotBusy;
+    private bool isBusyWritting;
+    private bool isBusyProcessing;
+    private WaitUntil waitUntilNotBusyWritting;
+    private WaitUntil waitUntilNotBusyProcessing;
+    private WaitForSeconds waitBetweenPages;
+    private WaitForSeconds waitBiosInterval;
 
     private void Awake()
     {
-        waitUntilNotBusy = new WaitUntil(() => isBusy == false);
+        waitUntilNotBusyWritting = new WaitUntil(() => isBusyWritting == false);
+        waitUntilNotBusyProcessing = new WaitUntil(() => isBusyProcessing == false);
+        waitBetweenPages = new WaitForSeconds(PAGE_TO_PAGE_INTERVAL);
+        waitBiosInterval = new WaitForSeconds(LINE_BY_LINE_INTERVAL);
         tLink = new TLink();
     }
 
@@ -43,7 +72,7 @@ public class UITerminal : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (inputField.text.Length > 0)
-                StartCoroutine(ProcessInput());
+                ProcessInput();
         }
     }
 
@@ -54,134 +83,132 @@ public class UITerminal : MonoBehaviour
         StartCoroutine(BootUpTerminal());
     }
 
-    private IEnumerator ProcessInput()
+    private void ProcessInput()
     {
-        DisableInput();
-
         string input = inputField.text;
+
+        DisableInput();
 
         inputField.text = "";
 
-        NewLines();
+        WriteLine(consoleOutput, "> " + input + "\n", true);
 
-        StartCoroutine(LazyWrite("> " + input));
-
-        yield return waitUntilNotBusy;
-
-        
+        WriteLine(consoleOutput, tLink.HandleInput(input), false);
 
         EnableInput();
     }
 
     private IEnumerator BootUpTerminal()
     {
-        ClearOutput();
+        biosPostMainField.text = "";
+        biosPostSecondaryField.text = "";
 
-        StartCoroutine(LazyWrite(WELCOME));
+        biosPostWrapper.SetActive(true);
 
-        yield return waitUntilNotBusy;
+        yield return waitBiosInterval;
 
-        NewLines();
+        biosPostTerrellHeader.SetActive(true);
 
-        StartCoroutine(LazyWrite(LOADING_AUTH));
+        yield return waitBiosInterval;
 
-        yield return waitUntilNotBusy;
+        StartCoroutine(WriteLineByLine(biosPostMainField, tLink.GetBiosPostMain(), LINE_BY_LINE_INTERVAL, true));
 
-        StartCoroutine(Processing(FINISHED));
+        yield return waitUntilNotBusyWritting;
 
-        yield return waitUntilNotBusy;
+        biosPostSecondaryField.text = tLink.GetBiosPostSecondary();
 
-        NewLines();
+        yield return waitBetweenPages;
 
-        StartCoroutine(LazyWrite(GUEST_PROFILES));
+        biosPostWrapper.SetActive(false);
 
-        yield return waitUntilNotBusy;
+        splashScreenWrapper.SetActive(true);
 
-        StartCoroutine(Processing(NONE));
+        tLinkVersionField.SetActive(true);
 
-        yield return waitUntilNotBusy;
+        yield return waitBetweenPages;
 
-        NewLines();
+        splashScreenWrapper.SetActive(false);
 
-        StartCoroutine(LazyWrite(PROFILES));
+        consoleWrapper.SetActive(true);
 
-        yield return waitUntilNotBusy;
+        StartCoroutine(WriteLineByLine(consoleOutput, tLink.GetConsoleBoot(), LINE_BY_LINE_INTERVAL, true));
 
-        StartCoroutine(Processing(terminalVariable.Value.Users.Length.ToString()));
-
-        yield return waitUntilNotBusy;
-
-        NewLines();
-
-        StartCoroutine(LazyWrite(PROFILES_LIST));
-
-        yield return waitUntilNotBusy;
-
-        NewLines();
-
-        for (int i = 0; i < terminalVariable.Value.Users.Length; i++)
-        {
-            StartCoroutine(LazyWrite(terminalVariable.Value.Users[i].ToString()));
-
-            yield return waitUntilNotBusy;
-
-            NewLines(1);
-        }
+        yield return waitUntilNotBusyWritting;
 
         EnableInput();
     }
 
-    private IEnumerator LazyWrite(string value)
+    private void WriteLine(TextMeshProUGUI field, string value, bool clearField)
     {
-        isBusy = true;
+        if (clearField)
+            field.text = "";
 
-        WaitForSeconds wait = new WaitForSeconds(WRITE_INTERVAL);
+        field.text += value + "\n";
+    }
 
-        for (int i = 0; i < value.Length; i++)
+    private IEnumerator WriteLineByLine(TextMeshProUGUI field, 
+        LinkedList<string> values, float interval, bool clearField)
+    {
+        isBusyWritting = true;
+
+        WaitForSeconds wait = new WaitForSeconds(interval);
+        LinkedListNode<string> node;
+
+        if (clearField)
+            field.text = "";
+
+        for (node = values.First; node != null; node = node.Next)
         {
-            terminalOutput.text += value[i];
+            if (node.Value.Contains("#"))
+            {
+                string[] split = node.Value.Split('#');
+
+                field.text += split[0];
+
+                StartCoroutine(Processing(field, split[1]));
+
+                yield return waitUntilNotBusyProcessing;
+            }
+            else
+                field.text += node.Value;
 
             yield return wait;
         }
 
-        isBusy = false;
+        isBusyWritting = false;
     }
 
-    private IEnumerator Processing(string finishedText)
+    private IEnumerator Processing(TextMeshProUGUI field, string finishedText)
     {
-        isBusy = true;
+        isBusyProcessing = true;
 
         WaitForSeconds wait = new WaitForSeconds(PROCESSING_TIME / PROCESSING_DOTS);
 
         for (int i = 0; i < PROCESSING_DOTS; i++)
         {
-            terminalOutput.text += ".";
+            field.text += ".";
 
             yield return wait;
         }
 
-        terminalOutput.text += finishedText;
+        field.text += finishedText;
 
-        isBusy = false;
-    }
-
-    private void NewLines(int numberOfLines = 2)
-    {
-        terminalOutput.text += new string('\n', numberOfLines);
-    }
-
-    private void ClearOutput()
-    {
-        terminalOutput.text = "";
+        isBusyProcessing = false;
     }
 
     private void EnableInput()
     {
+        userInputIdentifier.text = tLink.ConsoleTypeIndicator;
+
+        userInputWrapper.SetActive(true);
+
         inputField.ActivateInputField();
     }
 
     private void DisableInput()
     {
         inputField.DeactivateInputField(true);
+
+        userInputWrapper.SetActive(false);
     }
 }

@@ -6,6 +6,7 @@ public class Door : MonoBehaviour, IInteractable
     private const float RANGE = 4f;
     private const string INTERACTION_TEXT = "Door";
 
+    [Header("Requirements to interact")]
     [SerializeField]
     private bool playerNeedsItem;
 
