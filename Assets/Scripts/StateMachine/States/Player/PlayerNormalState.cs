@@ -14,6 +14,7 @@ public class PlayerNormalState : IPlayerState
 
     public Camera CurrentControlledCamera { get; protected set; }
     public CharacterController CurrentControlledCharacter { get; protected set; }
+    public virtual bool CanPickUpItem => true;
 
     private bool IsGrounded
     {

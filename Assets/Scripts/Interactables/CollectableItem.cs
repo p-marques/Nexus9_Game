@@ -8,10 +8,17 @@ public class CollectableItem : MonoBehaviour, IInteractableItem
     [SerializeField]
     private Item item;
 
+    [Header("Events")]
     [SerializeField]
+    [Tooltip("Event raised on analyse start")]
     private ItemNexusEvent onAnalyseEvent;
 
+    [SerializeField]
+    [Tooltip("Event raised when player can't pick up item")]
+    private NexusEvent onActionBlocked;
+
     private bool hasBeenAnalysed;
+    private Player playerRef;
 
     public string InteractionText => hasBeenAnalysed ? item.ItemName : INTERACTION_TEXT_ANALYSE;
 
@@ -24,6 +31,11 @@ public class CollectableItem : MonoBehaviour, IInteractableItem
         get => hasBeenAnalysed;
         set
         {
+            if (value)
+            {
+                playerRef.IsAnalysingItem = false;
+            }
+
             hasBeenAnalysed = value;
         }
     }
@@ -36,9 +48,13 @@ public class CollectableItem : MonoBehaviour, IInteractableItem
 
     public void Interact(Player player)
     {
+        playerRef = player;
+
         if (!hasBeenAnalysed)
         {
             onAnalyseEvent.Raise(this);
+
+            player.IsAnalysingItem = true;
 
             return;
         }
@@ -47,14 +63,17 @@ public class CollectableItem : MonoBehaviour, IInteractableItem
 
         if (playerInventory)
         {
-            if (playerInventory.AddItem(item))
+            if (player.CanPickUpItem && playerInventory.AddItem(item))
             {
                 Destroy(gameObject);
-                
+
                 Debug.Log($"Player picked up \"{item.ItemName}\".");
             }
             else
-                Debug.LogWarning($"Player failed to pick up {item.ItemName}. Inventory full?"); // TODO: Notify UI
+            {
+                onActionBlocked.Raise();
+                return;
+            }
         }
         else
             Debug.LogError("Can't pick up item because there is no reference to the player's inventory.");

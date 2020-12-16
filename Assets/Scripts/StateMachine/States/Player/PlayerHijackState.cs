@@ -4,6 +4,8 @@ public class PlayerHijackState : PlayerNormalState
 {
     private readonly Player playerRef;
 
+    public override bool CanPickUpItem => false;
+
     public PlayerHijackState(Player player, NexusEvent toggleInventoryUIEvent) 
         : base(player, toggleInventoryUIEvent)
     {
@@ -38,6 +40,10 @@ public class PlayerHijackState : PlayerNormalState
     {
         base.OnExit();
 
-        CurrentControlledCamera.gameObject.SetActive(false);
+        // Only disable hijack camera if player is not stuck in interaction
+        if (playerRef.CurrentInteraction == null)
+        {
+            CurrentControlledCamera.gameObject.SetActive(false);
+        }
     }
 }

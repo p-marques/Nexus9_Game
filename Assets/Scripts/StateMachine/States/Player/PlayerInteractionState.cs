@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerInteractionState : IPlayerState
 {
@@ -8,6 +6,7 @@ public class PlayerInteractionState : IPlayerState
 
     public CharacterController CurrentControlledCharacter => null;
     public Camera CurrentControlledCamera => null;
+    public bool CanPickUpItem => false;
 
     public PlayerInteractionState(Player player)
     {
@@ -16,7 +15,7 @@ public class PlayerInteractionState : IPlayerState
 
     public void OnEnter()
     {
-        
+
     }
 
     public void PhysicsTick()

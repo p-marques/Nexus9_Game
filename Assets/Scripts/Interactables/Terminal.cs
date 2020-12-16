@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using NaughtyAttributes;
 
-public class Terminal : MonoBehaviour, IInteractable
+public class Terminal : InteractableWithRequirements, ITerminal
 {
     private const float RANGE = 3f;
     private const string INTERACTION_TEXT = "Terminal";
@@ -8,12 +9,16 @@ public class Terminal : MonoBehaviour, IInteractable
     [SerializeField]
     private TerminalData terminalData;
 
+    [Header("Events")]
+    [Tooltip("Event raised when interactions begins")]
     [SerializeField]
-    private TerminalVariable terminalVariable;
+    private NexusEvent<ITerminal> onInteractionStartEvent;
 
     public float Range => RANGE;
 
     public string InteractionText => INTERACTION_TEXT;
+
+    public TerminalData TerminalData => terminalData;
 
     private void Awake()
     {
@@ -37,8 +42,18 @@ public class Terminal : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
+        if (hasControlSystem)
+        {
+            if (controlSystem && !controlSystem.IsEngaged)
+            {
+                onActionBlocked.Raise();
+
+                return;
+            }
+        }
+
         player.CurrentInteraction = this;
 
-        terminalVariable.Value = terminalData;
+        onInteractionStartEvent.Raise(this);
     }
 }
