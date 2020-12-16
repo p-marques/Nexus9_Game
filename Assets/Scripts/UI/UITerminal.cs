@@ -6,9 +6,9 @@ using UnityEngine;
 public class UITerminal : MonoBehaviour
 {
     private const byte PROCESSING_DOTS = 3;
-    private const float PROCESSING_TIME = 0.5f;
-    private const float PAGE_TO_PAGE_INTERVAL = 3f;
-    private const float LINE_BY_LINE_INTERVAL = 1f;
+    private const float PROCESSING_TIME = 0.25f;
+    private const float PAGE_TO_PAGE_INTERVAL = 1.5f;
+    private const float LINE_BY_LINE_INTERVAL = 0.5f;
 
     [Header("Bios Post")]
     [SerializeField]
@@ -46,10 +46,7 @@ public class UITerminal : MonoBehaviour
     [SerializeField]
     private TMP_InputField inputField;
 
-    [Header("Terminal Data")]
-    [SerializeField]
-    private TerminalVariable terminalVariable;
-
+    private ITerminal currentTerminal;
     private TLink tLink;
     private bool isBusyWritting;
     private bool isBusyProcessing;
@@ -69,6 +66,11 @@ public class UITerminal : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && currentTerminal != null)
+        {
+            ShutDown();
+        }
+        
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (inputField.text.Length > 0)
@@ -76,9 +78,10 @@ public class UITerminal : MonoBehaviour
         }
     }
 
-    public void OnTerminalChange()
+    public void OnTerminalChange(ITerminal terminal)
     {
-        tLink.Data = terminalVariable.Value;
+        currentTerminal = terminal;
+        tLink.Data = terminal.TerminalData;
 
         StartCoroutine(BootUpTerminal());
     }
@@ -210,5 +213,15 @@ public class UITerminal : MonoBehaviour
         inputField.DeactivateInputField(true);
 
         userInputWrapper.SetActive(false);
+    }
+
+    private void ShutDown()
+    {
+        StopAllCoroutines();
+
+        biosPostWrapper.SetActive(false);
+        splashScreenWrapper.SetActive(false);
+        consoleWrapper.SetActive(false);
+        tLinkVersionField.SetActive(false);
     }
 }

@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     public IInteractable CurrentInteraction { get; set; }
     public IHijackable CurrentHijack { get; set; }
     public Camera CurrentCamera => stateMachine?.CurrentState.CurrentControlledCamera;
+    public bool IsAnalysingItem { get; set; }
+    public bool CanPickUpItem => stateMachine.CurrentState.CanPickUpItem;
 
     private void Awake()
     {
@@ -45,11 +47,11 @@ public class Player : MonoBehaviour
         stateMachine.AddTransition(normalState, hijackState, () => CurrentHijack != null, onHijackChangeEvent.Raise);
         stateMachine.AddTransition(hijackState, normalState, () => CurrentHijack == null, onHijackChangeEvent.Raise);
 
-        stateMachine.AddTransition(normalState, interactionState, () => CurrentInteraction != null);
-        stateMachine.AddTransition(interactionState, normalState, () => CurrentInteraction == null && CurrentHijack == null);
+        stateMachine.AddTransition(normalState, interactionState, () => CurrentInteraction != null || IsAnalysingItem);
+        stateMachine.AddTransition(interactionState, normalState, () => CurrentInteraction == null && CurrentHijack == null && !IsAnalysingItem);
 
-        stateMachine.AddTransition(hijackState, interactionState, () => CurrentInteraction != null);
-        stateMachine.AddTransition(interactionState, hijackState, () => CurrentInteraction == null && CurrentHijack != null);
+        stateMachine.AddTransition(hijackState, interactionState, () => CurrentInteraction != null || IsAnalysingItem);
+        stateMachine.AddTransition(interactionState, hijackState, () => CurrentInteraction == null && CurrentHijack != null && !IsAnalysingItem);
     }
 
     private void FixedUpdate() => stateMachine.PhysicsTick();

@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Droid : MonoBehaviour, IHijackable
+public class Droid : InteractableWithRequirements, IHijackable
 {
     private const float RANGE = 30f;
     private const string INTERACTION_TEXT = "Hijack";
@@ -15,6 +13,12 @@ public class Droid : MonoBehaviour, IHijackable
 
     public void Interact(Player player)
     {
+        if (!CheckControlSystem())
+        {
+            onActionBlocked.Raise();
+            return;
+        }
+
         player.CurrentHijack = this;
     }
 }
