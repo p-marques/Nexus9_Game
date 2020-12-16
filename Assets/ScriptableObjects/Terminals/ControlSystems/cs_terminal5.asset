@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45d491c650bd622449ba391cee4b87e9, type: 3}
-  m_Name: KeyCardSectorB
+  m_Script: {fileID: 11500000, guid: 33157dd5dd205b94194882165adf3a1e, type: 3}
+  m_Name: cs_terminal5
   m_EditorClassIdentifier: 
-  itemName: Keycard Sector B
-  metadata: A keycard
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  controlSystemName: Terminal5CS
+  isEngaged: 1

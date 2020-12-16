@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45d491c650bd622449ba391cee4b87e9, type: 3}
-  m_Name: Post-itAlexJames
+  m_Script: {fileID: 11500000, guid: 33157dd5dd205b94194882165adf3a1e, type: 3}
+  m_Name: cs_shutters_toggle
   m_EditorClassIdentifier: 
-  itemName: A Postit note
-  metadata: AJ!10042002
-  icon: {fileID: 21300000, guid: a68f67755580eec4cb288de57138b209, type: 3}
+  controlSystemName: Shutters Switch CS
+  isEngaged: 1

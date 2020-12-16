@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45d491c650bd622449ba391cee4b87e9, type: 3}
-  m_Name: Post-itAlexJames
+  m_Script: {fileID: 11500000, guid: 1f2c2763edb324045b86e360c82005ca, type: 3}
+  m_Name: Terminal1
   m_EditorClassIdentifier: 
-  itemName: A Postit note
-  metadata: AJ!10042002
-  icon: {fileID: 21300000, guid: a68f67755580eec4cb288de57138b209, type: 3}
+  users:
+  - {fileID: 11400000, guid: 8070ca24f5e12804992ec989c0ef26d3, type: 2}
+  controlSystems:
+  - {fileID: 11400000, guid: dd19fcb642cdbde4d84664e7ae657f2d, type: 2}

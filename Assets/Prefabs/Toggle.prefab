@@ -108,9 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d71dd6bcefb1754f9ad84656d06d979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNeedsItem: 1
+  playerNeedsItem: 0
   necessaryItem: {fileID: 11400000, guid: 7341c3a0bd590cf4cad3703d7abf81c2, type: 2}
-  hasControlSystem: 1
+  hasControlSystem: 0
   controlSystem: {fileID: 11400000, guid: 664b61659c5e7fb49a8facc8a85382eb, type: 2}
   onActionBlocked: {fileID: 11400000, guid: cac73d25776fef44889564e3d772f45a, type: 2}
   isOn: 0

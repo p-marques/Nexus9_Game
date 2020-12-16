@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   users:
   - {fileID: 11400000, guid: c004d3430f8e9ba40b8ce8a383033aec, type: 2}
-  controlSystems: []
+  controlSystems:
+  - {fileID: 11400000, guid: 47debe87088c6024baa7091631b17945, type: 2}

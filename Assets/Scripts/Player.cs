@@ -44,8 +44,8 @@ public class Player : MonoBehaviour
 
         stateMachine.SetState(normalState);
 
-        stateMachine.AddTransition(normalState, hijackState, () => CurrentHijack != null, onHijackChangeEvent.Raise);
-        stateMachine.AddTransition(hijackState, normalState, () => CurrentHijack == null, onHijackChangeEvent.Raise);
+        stateMachine.AddTransition(normalState, hijackState, () => CurrentHijack != null, OnNormalHijackStateSwap);
+        stateMachine.AddTransition(hijackState, normalState, () => CurrentHijack == null, OnNormalHijackStateSwap);
 
         stateMachine.AddTransition(normalState, interactionState, () => CurrentInteraction != null || IsAnalysingItem);
         stateMachine.AddTransition(interactionState, normalState, () => CurrentInteraction == null && CurrentHijack == null && !IsAnalysingItem);
@@ -57,4 +57,10 @@ public class Player : MonoBehaviour
     private void FixedUpdate() => stateMachine.PhysicsTick();
 
     private void Update() => stateMachine.Tick();
+
+    private void OnNormalHijackStateSwap()
+    {
+        onHijackChangeEvent.Raise();
+        CurrentCamera.GetComponent<AudioListener>().enabled = false;
+    }
 }

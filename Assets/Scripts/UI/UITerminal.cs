@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UITerminal : MonoBehaviour
 {
@@ -205,6 +206,7 @@ public class UITerminal : MonoBehaviour
 
         userInputWrapper.SetActive(true);
 
+        inputField.Select();
         inputField.ActivateInputField();
     }
 
@@ -223,5 +225,6 @@ public class UITerminal : MonoBehaviour
         splashScreenWrapper.SetActive(false);
         consoleWrapper.SetActive(false);
         tLinkVersionField.SetActive(false);
+        userInputWrapper.SetActive(false);
     }
 }

@@ -15,4 +15,5 @@ MonoBehaviour:
   isUnlocked: 0
   userName: Ashley Smith
   password: AshOW
-  communications: []
+  communications:
+  - {fileID: 11400000, guid: 423da50d09158844fa1cf8ad7fa5a240, type: 2}

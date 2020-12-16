@@ -57,6 +57,8 @@ public class TLink
     {
         string result = "";
 
+        input = input.Trim();
+
         switch (state)
         {
             case TLinkState.Auth:
@@ -145,12 +147,12 @@ public class TLink
     {
         string[] values = input.Split();
 
-        if (values[0].ToLower() == AUTH)
+        if (values[0].Trim().ToLower() == AUTH)
         {
             if (values.Length != 3)
                 return WRONG_FORMAT;
 
-            TerminalUser user = GetUserById(values[1].ToLower());
+            TerminalUser user = GetUserById(values[1].Trim().ToLower());
 
             if (!user)
                 return $"Error: no user found with id \"{values[1]}\"";
@@ -167,7 +169,7 @@ public class TLink
             else
                 return AUTH_UNSUCCESSFUL;
         }
-        else if (values[0] == HELP)
+        else if (values[0].Trim() == HELP)
         {
             return AUTH_HELP;
         }
@@ -179,12 +181,12 @@ public class TLink
     {
         string[] values = input.ToLower().Split();
 
-        if (values[0] == LOAD)
+        if (values[0].Trim() == LOAD)
         {
             if (values.Length != 2)
                 return WRONG_FORMAT;
 
-            string program = values[1];
+            string program = values[1].Trim();
 
             if (program == COMMS)
             {
@@ -199,7 +201,7 @@ public class TLink
                 return "LOADED : TERRELL (C) cs.NET v4.04\n\n" + GetControlSystemsList();
             }
         }
-        else if (values[0] == HELP)
+        else if (values[0].Trim() == HELP)
         {
             return LOGGED_IN_HELP;
         }
@@ -210,7 +212,7 @@ public class TLink
     private string HandleInputCOMMS(string input)
     {
         string[] values = input.ToLower().Split();
-        string identifier = values[0];
+        string identifier = values[0].Trim();
 
 
         if (identifier == "list")
@@ -225,7 +227,7 @@ public class TLink
             if (values.Length != 2)
                 return WRONG_FORMAT;
 
-            string indexGiven = values[1];
+            string indexGiven = values[1].Trim();
 
             if (int.TryParse(indexGiven, out int result))
             {
@@ -256,7 +258,7 @@ public class TLink
     private string HandleInputCS(string input)
     {
         string[] values = input.ToLower().Split();
-        string identifier = values[0];
+        string identifier = values[0].Trim();
 
 
         if (identifier == "list")
@@ -271,7 +273,7 @@ public class TLink
             if (values.Length != 2)
                 return WRONG_FORMAT;
 
-            string indexGiven = values[1];
+            string indexGiven = values[1].Trim();
 
             if (int.TryParse(indexGiven, out int result))
             {

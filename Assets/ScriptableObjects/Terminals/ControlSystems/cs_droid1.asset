@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33157dd5dd205b94194882165adf3a1e, type: 3}
   m_Name: cs_droid1
   m_EditorClassIdentifier: 
-  controlSystemName: Terminal3CS
-  isEngaged: 0
+  controlSystemName: Droid x-14 CS
+  isEngaged: 1

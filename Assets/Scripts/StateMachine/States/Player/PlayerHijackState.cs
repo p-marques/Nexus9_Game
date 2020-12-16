@@ -23,6 +23,8 @@ public class PlayerHijackState : PlayerNormalState
         CurrentControlledCamera = playerRef.CurrentHijack
             .Transform.GetComponentInChildren<Camera>(true);
 
+        CurrentControlledCamera.GetComponent<AudioListener>().enabled = true;
+
         CurrentControlledCamera.gameObject.SetActive(true);
     }
 
@@ -38,8 +40,6 @@ public class PlayerHijackState : PlayerNormalState
 
     public override void OnExit()
     {
-        base.OnExit();
-
         // Only disable hijack camera if player is not stuck in interaction
         if (playerRef.CurrentInteraction == null)
         {

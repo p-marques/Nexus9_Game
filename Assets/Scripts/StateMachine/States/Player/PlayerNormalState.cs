@@ -40,6 +40,7 @@ public class PlayerNormalState : IPlayerState
     {
         CurrentControlledCamera = playerRef.GetComponentInChildren<Camera>();
         CurrentControlledCharacter = playerRef.GetComponent<CharacterController>();
+        CurrentControlledCamera.GetComponent<AudioListener>().enabled = true;
     }
 
     public virtual void PhysicsTick()
@@ -75,8 +76,6 @@ public class PlayerNormalState : IPlayerState
 
     public virtual void OnExit() 
     {
-        AudioListener audioListener = CurrentControlledCamera.GetComponent<AudioListener>();
-
-        if (audioListener) audioListener.enabled = false;
+        
     }
 }

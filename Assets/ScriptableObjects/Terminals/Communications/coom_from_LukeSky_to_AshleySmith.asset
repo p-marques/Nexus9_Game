@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 384df8940925faf4c8207899a99141f3, type: 3}
-  m_Name: comm_TommyJones_1
+  m_Name: coom_from_LukeSky_to_AshleySmith
   m_EditorClassIdentifier: 
-  from: Ashley Smith
+  from: 
   text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus a semper
     nisi. Aliquam nec tincidunt est, vel ultrices risus. Vestibulum fermentum leo
     nec felis luctus pretium. Morbi efficitur felis eu placerat fringilla. Cras rhoncus
@@ -20,4 +20,4 @@ MonoBehaviour:
     viverra vestibulum.
 
 
-    pw: AshOW'
+    pw: forc3rules'
