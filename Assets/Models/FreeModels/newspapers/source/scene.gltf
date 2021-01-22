@@ -1,0 +1,466 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 719,
+      "max": [
+        98.094352722167969,
+        62.838466644287109,
+        68.9661865234375
+      ],
+      "min": [
+        -93.622322082519531,
+        -10.372622489929199,
+        -71.77252197265625
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 8628,
+      "componentType": 5126,
+      "count": 719,
+      "max": [
+        1,
+        0.99989098310470581,
+        0.99983489513397217
+      ],
+      "min": [
+        -0.99964898824691772,
+        -0.9999660849571228,
+        -0.99980533123016357
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 719,
+      "max": [
+        0.99895226955413818,
+        0.90952152013778687,
+        0.99996656179428101,
+        1
+      ],
+      "min": [
+        -0.99999386072158813,
+        -0.99977594614028931,
+        -0.99572283029556274,
+        -1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 719,
+      "max": [
+        0.99855053424835205,
+        0.98927450180053711
+      ],
+      "min": [
+        0.38606280088424683,
+        0.0026724338531494141
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 5752,
+      "componentType": 5126,
+      "count": 719,
+      "max": [
+        0.99855053424835205,
+        0.98927450180053711
+      ],
+      "min": [
+        0.38606280088424683,
+        0.0026724338531494141
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 3198,
+      "max": [
+        718
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 17256,
+      "componentType": 5126,
+      "count": 719,
+      "max": [
+        98.094352722167969,
+        62.838466644287109,
+        68.9661865234375
+      ],
+      "min": [
+        -93.622322082519531,
+        -10.372622489929199,
+        -71.77252197265625
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 25884,
+      "componentType": 5126,
+      "count": 719,
+      "max": [
+        1,
+        0.99989098310470581,
+        0.99983489513397217
+      ],
+      "min": [
+        -0.99964898824691772,
+        -0.9999660849571228,
+        -0.99980533123016357
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 11504,
+      "componentType": 5126,
+      "count": 719,
+      "max": [
+        0.99895888566970825,
+        0.88178032636642456,
+        0.99974054098129272,
+        1
+      ],
+      "min": [
+        -0.99999392032623291,
+        -0.99977540969848633,
+        -0.99572139978408813,
+        -1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 11504,
+      "componentType": 5126,
+      "count": 719,
+      "max": [
+        0.98627650737762451,
+        0.9937819242477417
+      ],
+      "min": [
+        0.012029903940856457,
+        0.12336623668670654
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 17256,
+      "componentType": 5126,
+      "count": 719,
+      "max": [
+        0.98627650737762451,
+        0.9937819242477417
+      ],
+      "min": [
+        0.012029903940856457,
+        0.12336623668670654
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 12792,
+      "componentType": 5125,
+      "count": 3198,
+      "max": [
+        718
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "karlwirbelwind (https://sketchfab.com/karlwirbelwind)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/cc0-newspaper-stack-ready-to-unity-hdrp-c4311a0b918643af97904e10c7a34efc",
+      "title": "[CC0] Newspaper Stack - Ready to Unity HDRP"
+    },
+    "generator": "Sketchfab-8.47.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 25584,
+      "byteOffset": 0,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 23008,
+      "byteOffset": 25584,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 34512,
+      "byteOffset": 48592,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 23008,
+      "byteOffset": 83104,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 106112,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/Material_Newspaper_Stack_baseColor.jpeg"
+    },
+    {
+      "uri": "textures/Material_Newspaper_Stack_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/Material_Newspaper_Stack_normal.jpeg"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": false,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "name": "Material_Newspaper_Stack",
+      "normalTexture": {
+        "index": 2,
+        "scale": 1,
+        "texCoord": 0
+      },
+      "occlusionTexture": {
+        "index": 1,
+        "strength": 1,
+        "texCoord": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseColorTexture": {
+          "index": 0,
+          "texCoord": 0
+        },
+        "metallicFactor": 1,
+        "metallicRoughnessTexture": {
+          "index": 1,
+          "texCoord": 0
+        },
+        "roughnessFactor": 1
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "newspaper_1_Material_Newspaper_Stack_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3,
+            "TEXCOORD_1": 4
+          },
+          "indices": 5,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "newspaper_2_Material_Newspaper_Stack_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 7,
+            "POSITION": 6,
+            "TANGENT": 8,
+            "TEXCOORD_0": 9,
+            "TEXCOORD_1": 10
+          },
+          "indices": 11,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode (gltf orientation matrix)",
+      "rotation": [
+        -0.70710678118654746,
+        -0,
+        -0,
+        0.70710678118654757
+      ]
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "RootNode (model correction matrix)"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "Mesh_newspaper_stack.fbx"
+    },
+    {
+      "children": [
+        4,
+        6
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        5
+      ],
+      "matrix": [
+        0.94871882732605084,
+        0,
+        0.31612115822431586,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.31612115822431586,
+        0,
+        0.94871882732605084,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "newspaper_1"
+    },
+    {
+      "mesh": 0,
+      "name": "newspaper_1_Material_Newspaper_Stack_0"
+    },
+    {
+      "children": [
+        7
+      ],
+      "matrix": [
+        0.97653837854361103,
+        0,
+        -0.21534343554289054,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.21534343554289054,
+        0,
+        0.97653837854361103,
+        0,
+        27.848249435424805,
+        0,
+        -225.28573608398438,
+        1
+      ],
+      "name": "newspaper_2"
+    },
+    {
+      "mesh": 1,
+      "name": "newspaper_2_Material_Newspaper_Stack_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "OSG_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}
+
