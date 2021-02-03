@@ -10,7 +10,7 @@ public class PlayerNormalState : IPlayerState
     private float inputStrafe;
 
     private Vector3 GroundDetectionPoint =>
-        CurrentControlledCharacter.transform.position - new Vector3(0, 1f, 0);
+        CurrentControlledCharacter.transform.position;
 
     public Camera CurrentControlledCamera { get; protected set; }
     public CharacterController CurrentControlledCharacter { get; protected set; }
@@ -20,7 +20,7 @@ public class PlayerNormalState : IPlayerState
     {
         get
         {
-            Collider[] collisions = Physics.OverlapSphere(GroundDetectionPoint, playerRef.GroundDetectionRadius);
+            Collider[] collisions = Physics.OverlapSphere(GroundDetectionPoint, playerRef.GroundDetectionRadius, playerRef.GroundDetectionLayer);
 
             if (collisions.Length > 0)
                 return true;
@@ -58,13 +58,21 @@ public class PlayerNormalState : IPlayerState
             moveDirection.y -= FORCED_GRAVITY;
         }
 
-        CurrentControlledCharacter.Move(moveDirection);
+        //CurrentControlledCharacter.Move(moveDirection);
     }
 
     public virtual void Tick()
     {
         inputForward = Input.GetAxis("Forward");
         inputStrafe = Input.GetAxis("Strafe");
+
+        playerRef.Animator.SetFloat("MovementForward", inputForward);
+        playerRef.Animator.SetFloat("MovementStrafe", inputStrafe);
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            playerRef.Animator.SetTrigger("HijackToggle");
+        }
 
         if (Input.GetKeyDown(KeyCode.I))
         {

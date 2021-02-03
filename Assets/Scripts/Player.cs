@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     private float groundDetectionRadius = 0.05f;
 
     [SerializeField]
+    private LayerMask groundDetectionLayer;
+
+    [SerializeField]
     private Storage inventory;
 
     [Header("Events")]
@@ -21,11 +24,14 @@ public class Player : MonoBehaviour
     [Tooltip("Event: toggle ON/OFF Inventory UI")]
     private NexusEvent inventoryUIToggleEvent;
 
+    private Animator animator;
     private StateMachine<IPlayerState> stateMachine;
 
     public Storage Inventory => inventory;
+    public Animator Animator => animator;
     public float MoveSpeed => moveSpeed;
     public float GroundDetectionRadius => groundDetectionRadius;
+    public LayerMask GroundDetectionLayer => groundDetectionLayer;
     public IInteractable CurrentInteraction { get; set; }
     public IHijackable CurrentHijack { get; set; }
     public Camera CurrentCamera => stateMachine?.CurrentState.CurrentControlledCamera;
@@ -35,6 +41,10 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         if (!inventory) Debug.LogError("Player doesn't have an inventory!");
+
+        animator = GetComponentInChildren<Animator>();
+
+        if (!animator) Debug.LogError("Player doesn't have an Animator!");
 
         stateMachine = new StateMachine<IPlayerState>();
 
@@ -62,5 +72,12 @@ public class Player : MonoBehaviour
     {
         onHijackChangeEvent.Raise();
         CurrentCamera.GetComponent<AudioListener>().enabled = false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 point = transform.position - new Vector3(0, 1f, 0);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(transform.position, GroundDetectionRadius);
     }
 }
