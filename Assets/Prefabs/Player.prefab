@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ac296c146251a44b43171e3213c140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 3
   groundDetectionRadius: 0.05
   groundDetectionLayer:
     serializedVersion: 2

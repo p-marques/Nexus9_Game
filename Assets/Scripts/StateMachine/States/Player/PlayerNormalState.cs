@@ -58,7 +58,7 @@ public class PlayerNormalState : IPlayerState
             moveDirection.y -= FORCED_GRAVITY;
         }
 
-        //CurrentControlledCharacter.Move(moveDirection);
+        CurrentControlledCharacter.Move(moveDirection);
     }
 
     public virtual void Tick()
