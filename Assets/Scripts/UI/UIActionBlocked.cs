@@ -1,44 +1,55 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class UIActionBlocked : MonoBehaviour
 {
-    [SerializeField]
     [Tooltip("Wrapper enabled/disabled as needed")]
-    private GameObject wrapper;
+    [SerializeField] private GameObject _wrapper;
 
-    [SerializeField]
-    [Range(0.5f, 2f)]
-    private float timeShowned = 1f;
+    [Range(0.5f, 5f)]
+    [SerializeField] private float _timeShowned = 1f;
 
-    private WaitForSeconds showForTime;
-    private bool isBeingShowned;
+    [SerializeField] private UIColors _colors;
+
+    private WaitForSeconds _showForTime;
+    private bool _isBeingShowned;
+
+    private Image _background;
+    private TextMeshProUGUI _text;
 
     private void Awake()
     {
-        wrapper.SetActive(false);
-        isBeingShowned = false;
-        showForTime = new WaitForSeconds(timeShowned);
+        _background = _wrapper.GetComponent<Image>();
+        _text = _wrapper.GetComponentInChildren<TextMeshProUGUI>();
+
+        _wrapper.SetActive(false);
+        _isBeingShowned = false;
+        _showForTime = new WaitForSeconds(_timeShowned);
     }
 
     public void Show()
     {
-        if (!isBeingShowned)
+        if (!_isBeingShowned)
         {
+            _background.color = _colors.MainColorABackground;
+            _text.color = _colors.MainColorA;
+
             StartCoroutine(DisplayCR());
         }
     }
 
     private IEnumerator DisplayCR()
     {
-        wrapper.SetActive(true);
+        _wrapper.SetActive(true);
 
-        isBeingShowned = true;
+        _isBeingShowned = true;
 
-        yield return showForTime;
+        yield return _showForTime;
 
-        wrapper.SetActive(false);
+        _wrapper.SetActive(false);
 
-        isBeingShowned = false;
+        _isBeingShowned = false;
     }
 }

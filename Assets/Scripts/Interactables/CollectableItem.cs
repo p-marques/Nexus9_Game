@@ -5,54 +5,51 @@ public class CollectableItem : MonoBehaviour, IInteractableItem
     private const float RANGE = 2f;
     private const string INTERACTION_TEXT_ANALYSE = "Analyse";
 
-    [SerializeField]
-    private Item item;
+    [SerializeField] private Item _item;
 
     [Header("Events")]
-    [SerializeField]
     [Tooltip("Event raised on analyse start")]
-    private ItemNexusEvent onAnalyseEvent;
+    [SerializeField] private ItemNexusEvent _onAnalyseEvent;
 
-    [SerializeField]
     [Tooltip("Event raised when player can't pick up item")]
-    private NexusEvent onActionBlocked;
+    [SerializeField] private NexusEvent _onActionBlocked;
 
-    private bool hasBeenAnalysed;
-    private Player playerRef;
+    private bool _hasBeenAnalysed;
+    private Player _playerRef;
 
-    public string InteractionText => hasBeenAnalysed ? item.ItemName : INTERACTION_TEXT_ANALYSE;
+    public string InteractionText => _hasBeenAnalysed ? _item.ItemName : INTERACTION_TEXT_ANALYSE;
 
     public float Range => RANGE;
 
-    public Item Item => item;
+    public Item Item => _item;
 
     public bool HasBeenAnalysed
     {
-        get => hasBeenAnalysed;
+        get => _hasBeenAnalysed;
         set
         {
             if (value)
             {
-                playerRef.IsAnalysingItem = false;
+                _playerRef.IsAnalysingItem = false;
             }
 
-            hasBeenAnalysed = value;
+            _hasBeenAnalysed = value;
         }
     }
 
     private void Awake()
     {
-        if (!item)
+        if (!_item)
             Debug.LogError($"{name} doesn't have a item set to be picked up.");
     }
 
     public void Interact(Player player)
     {
-        playerRef = player;
+        _playerRef = player;
 
-        if (!hasBeenAnalysed)
+        if (!_hasBeenAnalysed)
         {
-            onAnalyseEvent.Raise(this);
+            _onAnalyseEvent.Raise(this);
 
             player.IsAnalysingItem = true;
 
@@ -63,15 +60,15 @@ public class CollectableItem : MonoBehaviour, IInteractableItem
 
         if (playerInventory)
         {
-            if (player.CanPickUpItem && playerInventory.AddItem(item))
+            if (player.CanPickUpItem && playerInventory.AddItem(_item))
             {
                 Destroy(gameObject);
 
-                Debug.Log($"Player picked up \"{item.ItemName}\".");
+                Debug.Log($"Player picked up \"{_item.ItemName}\".");
             }
             else
             {
-                onActionBlocked.Raise();
+                _onActionBlocked.Raise();
                 return;
             }
         }

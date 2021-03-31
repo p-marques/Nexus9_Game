@@ -1,29 +1,29 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Nexus Events/Simple Event", order = 1)]
+[CreateAssetMenu(menuName = "Game/Nexus Events/Simple Event", order = 1)]
 public class NexusEvent : ScriptableObject
 {
-    private readonly LinkedList<NexusEventListener> listeners =
+    private readonly LinkedList<NexusEventListener> _listeners =
         new LinkedList<NexusEventListener>();
 
     public void Raise()
     {
         LinkedListNode<NexusEventListener> node;
 
-        for (node = listeners.First; node != null; node = node.Next)
+        for (node = _listeners.First; node != null; node = node.Next)
             node.Value.OnEventRaised();
     }
 
     public void Subscribe(NexusEventListener listener)
     {
-        if (!listeners.Contains(listener))
-            listeners.AddLast(listener);
+        if (!_listeners.Contains(listener))
+            _listeners.AddLast(listener);
     }
 
     public void Unsubscribe(NexusEventListener listener)
     {
-        if (listeners.Contains(listener))
-            listeners.Remove(listener);
+        if (_listeners.Contains(listener))
+            _listeners.Remove(listener);
     }
 }

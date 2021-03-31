@@ -22,16 +22,16 @@ public class TLink
     private const string PROFILES_LIST = "profiles --list\n\n";
     private const byte COMM_SUBJECT_LENGTH = 50;
 
-    private TLinkState state;
-    private TerminalUser currentUser;
-    private TerminalData data;
+    private TLinkState _state;
+    private TerminalUser _currentUser;
+    private TerminalData _data;
 
     public string ConsoleTypeIndicator
     {
         get
         {
-            if (state == TLinkState.LoggedIn)
-                return currentUser.Id + " >";
+            if (_state == TLinkState.LoggedIn)
+                return _currentUser.Id + " >";
 
             return "input >";
         }
@@ -39,10 +39,10 @@ public class TLink
 
     public TerminalData Data 
     {
-        get => data;
+        get => _data;
         set
         {
-            data = value;
+            _data = value;
 
             AttemptAutomaticLogin();
         }
@@ -50,7 +50,7 @@ public class TLink
 
     public TLink()
     {
-        state = TLinkState.Auth;
+        _state = TLinkState.Auth;
     }
 
     public string HandleInput(string input)
@@ -59,7 +59,7 @@ public class TLink
 
         input = input.Trim();
 
-        switch (state)
+        switch (_state)
         {
             case TLinkState.Auth:
                 result = HandleInputAuth(input);
@@ -119,21 +119,21 @@ public class TLink
 
         values.AddLast(WELCOME);
 
-        if (state == TLinkState.Auth)
+        if (_state == TLinkState.Auth)
         {
             values.AddLast(LOADING_AUTH);
 
             values.AddLast(GUEST_PROFILES);
 
-            values.AddLast(PROFILES + data.Users.Length + "\n\n");
+            values.AddLast(PROFILES + _data.Users.Length + "\n\n");
 
             values.AddLast(PROFILES_LIST);
 
-            for (int i = 0; i < data.Users.Length; i++)
+            for (int i = 0; i < _data.Users.Length; i++)
             {
-                string t = data.Users[i].ToString() + "\n";
+                string t = _data.Users[i].ToString() + "\n";
 
-                if (i + 1 == data.Users.Length)
+                if (i + 1 == _data.Users.Length)
                     t += "\n";
 
                 values.AddLast(t);
@@ -161,8 +161,8 @@ public class TLink
 
             if (wasUnlocked)
             {
-                state = TLinkState.LoggedIn;
-                currentUser = user;
+                _state = TLinkState.LoggedIn;
+                _currentUser = user;
 
                 return AUTH_SUCCESSFUL;
             }
@@ -190,13 +190,13 @@ public class TLink
 
             if (program == COMMS)
             {
-                state = TLinkState.COMMS;
+                _state = TLinkState.COMMS;
 
                 return "LOADED : TERRELL (C) Comms Inbox v1.14\n\n" + GetCommsInbox();
             }
             else if (program == CONTROL_SYSTEMS)
             {
-                state = TLinkState.ControlSystems;
+                _state = TLinkState.ControlSystems;
 
                 return "LOADED : TERRELL (C) cs.NET v4.04\n\n" + GetControlSystemsList();
             }
@@ -231,7 +231,7 @@ public class TLink
 
             if (int.TryParse(indexGiven, out int result))
             {
-                if (result < 0 || result >= currentUser.Communications.Length)
+                if (result < 0 || result >= _currentUser.Communications.Length)
                 {
                     return $"No communication has an index of \"{indexGiven}\"";
                 }
@@ -243,7 +243,7 @@ public class TLink
         }
         else if (identifier == RETURN)
         {
-            state = TLinkState.LoggedIn;
+            _state = TLinkState.LoggedIn;
 
             return "Returned to main";
         }
@@ -295,7 +295,7 @@ public class TLink
         }
         else if (identifier == RETURN)
         {
-            state = TLinkState.LoggedIn;
+            _state = TLinkState.LoggedIn;
 
             return "Returned to main";
         }
@@ -313,9 +313,9 @@ public class TLink
 
         value += "== INBOX ==\n";
 
-        for (int i = 0; i < currentUser.Communications.Length; i++)
+        for (int i = 0; i < _currentUser.Communications.Length; i++)
         {
-            TerminalCommunication comm = currentUser.Communications[i];
+            TerminalCommunication comm = _currentUser.Communications[i];
 
             value += $"{i}: {comm.Text.Substring(0, COMM_SUBJECT_LENGTH)} | From: {comm.From}\n";
         }
@@ -326,7 +326,7 @@ public class TLink
     private string GetCommunication(int index)
     {
         string value = "";
-        TerminalCommunication comm = currentUser.Communications[index];
+        TerminalCommunication comm = _currentUser.Communications[index];
 
         value += "== METADATA ==\n";
         
@@ -347,9 +347,9 @@ public class TLink
 
         value = "== CONTROL SYSTEMS ==\n";
 
-        for (int i = 0; i < data.ControlSystems.Length; i++)
+        for (int i = 0; i < _data.ControlSystems.Length; i++)
         {
-            TerminalCS cs = data.ControlSystems[i];
+            TerminalCS cs = _data.ControlSystems[i];
 
             value += $"{i}: {cs.Name}\n";
         }
@@ -374,9 +374,9 @@ public class TLink
     {
         TerminalCS cs = null;
 
-        if (index >= 0 && index < data.ControlSystems.Length)
+        if (index >= 0 && index < _data.ControlSystems.Length)
         {
-            cs = data.ControlSystems[index];
+            cs = _data.ControlSystems[index];
         }
 
         return cs;
@@ -384,20 +384,20 @@ public class TLink
 
     private void AttemptAutomaticLogin()
     {
-        for (int i = 0; i < data.Users.Length; i++)
+        for (int i = 0; i < _data.Users.Length; i++)
         {
-            TerminalUser user = data.Users[i];
+            TerminalUser user = _data.Users[i];
 
             if (user.IsUnlocked)
             {
-                state = TLinkState.LoggedIn;
-                currentUser = user;
+                _state = TLinkState.LoggedIn;
+                _currentUser = user;
 
                 return;
             }
         }
 
-        state = TLinkState.Auth;
-        currentUser = null;
+        _state = TLinkState.Auth;
+        _currentUser = null;
     }
 }

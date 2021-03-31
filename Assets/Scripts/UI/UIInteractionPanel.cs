@@ -3,28 +3,26 @@ using UnityEngine;
 
 public class UIInteractionPanel : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject panel;
+    [SerializeField] private GameObject _panel;
 
-    [SerializeField]
-    private TextMeshProUGUI interactionTextObject;
+    [SerializeField] private TextMeshProUGUI _interactionTextObject;
 
     private void Start()
     {
-        panel.SetActive(false);
+        _panel.SetActive(false);
     }
 
     public void UpdateInteractionPanel(IInteractable interactable)
     {
         if (interactable != null)
         {
-            interactionTextObject.text = $"E) {interactable.InteractionText}";
+            _interactionTextObject.text = $"E) {interactable.InteractionText}";
 
-            panel.SetActive(true);
+            _panel.SetActive(true);
         }
         else
         {
-            panel.SetActive(false);
+            _panel.SetActive(false);
         }
     }
 }

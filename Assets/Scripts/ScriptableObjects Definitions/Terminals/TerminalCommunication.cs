@@ -1,17 +1,15 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Terminals/Terminal Communication", order = 3)]
+[CreateAssetMenu(menuName = "Game/Terminals/Terminal Communication", order = 3)]
 public class TerminalCommunication : ScriptableObject
 {
-    [SerializeField]
-    private string from;
+    [SerializeField] private string _from;
 
-    [SerializeField]
     [ResizableTextArea]
-    private string text;
+    [SerializeField] private string _text;
 
-    public string From => from;
+    public string From => _from;
 
-    public string Text => text;
+    public string Text => _text;
 }

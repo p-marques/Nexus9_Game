@@ -2,25 +2,25 @@
 
 public class PlayerHijackState : PlayerNormalState
 {
-    private readonly Player playerRef;
+    private readonly Player _playerRef;
 
     public override bool CanPickUpItem => false;
 
     public PlayerHijackState(Player player, NexusEvent toggleInventoryUIEvent) 
         : base(player, toggleInventoryUIEvent)
     {
-        playerRef = player;
+        _playerRef = player;
     }
 
     public override void OnEnter()
     {
-        CurrentControlledCharacter = playerRef.CurrentHijack
+        CurrentControlledCharacter = _playerRef.CurrentHijack
             .Transform.GetComponent<CharacterController>();
 
         if (!CurrentControlledCharacter)
             Debug.LogWarning("Player hijacked IHijackable doesn't have a CharacterController!");
 
-        CurrentControlledCamera = playerRef.CurrentHijack
+        CurrentControlledCamera = _playerRef.CurrentHijack
             .Transform.GetComponentInChildren<Camera>(true);
 
         CurrentControlledCamera.GetComponent<AudioListener>().enabled = true;
@@ -34,14 +34,14 @@ public class PlayerHijackState : PlayerNormalState
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            playerRef.CurrentHijack = null;
+            _playerRef.CurrentHijack = null;
         }
     }
 
     public override void OnExit()
     {
         // Only disable hijack camera if player is not stuck in interaction
-        if (playerRef.CurrentInteraction == null)
+        if (_playerRef.CurrentInteraction == null)
         {
             CurrentControlledCamera.gameObject.SetActive(false);
         }

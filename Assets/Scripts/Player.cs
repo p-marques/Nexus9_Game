@@ -2,75 +2,69 @@
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float moveSpeed = 4f;
+    [SerializeField] private float _moveSpeed = 4f;
 
-    [SerializeField]
     [Range(0.01f, 0.1f)]
-    private float groundDetectionRadius = 0.05f;
+    [SerializeField] private float _groundDetectionRadius = 0.05f;
 
-    [SerializeField]
-    private LayerMask groundDetectionLayer;
+    [SerializeField] private LayerMask _groundDetectionLayer;
 
-    [SerializeField]
-    private Storage inventory;
+    [SerializeField] private Storage _inventory;
 
     [Header("Events")]
-    [SerializeField]
     [Tooltip("Event fired entering/exiting hijack")]
-    private NexusEvent onHijackChangeEvent;
+    [SerializeField] private NexusEvent _onHijackChangeEvent;
 
-    [SerializeField]
     [Tooltip("Event: toggle ON/OFF Inventory UI")]
-    private NexusEvent inventoryUIToggleEvent;
+    [SerializeField] private NexusEvent _inventoryUIToggleEvent;
 
-    private Animator animator;
-    private StateMachine<IPlayerState> stateMachine;
+    private Animator _animator;
+    private StateMachine<IPlayerState> _stateMachine;
 
-    public Storage Inventory => inventory;
-    public Animator Animator => animator;
-    public float MoveSpeed => moveSpeed;
-    public float GroundDetectionRadius => groundDetectionRadius;
-    public LayerMask GroundDetectionLayer => groundDetectionLayer;
+    public Storage Inventory => _inventory;
+    public Animator Animator => _animator;
+    public float MoveSpeed => _moveSpeed;
+    public float GroundDetectionRadius => _groundDetectionRadius;
+    public LayerMask GroundDetectionLayer => _groundDetectionLayer;
     public IInteractable CurrentInteraction { get; set; }
     public IHijackable CurrentHijack { get; set; }
-    public Camera CurrentCamera => stateMachine?.CurrentState.CurrentControlledCamera;
+    public Camera CurrentCamera => _stateMachine?.CurrentState.CurrentControlledCamera;
     public bool IsAnalysingItem { get; set; }
-    public bool CanPickUpItem => stateMachine.CurrentState.CanPickUpItem;
+    public bool CanPickUpItem => _stateMachine.CurrentState.CanPickUpItem;
 
     private void Awake()
     {
-        if (!inventory) Debug.LogError("Player doesn't have an inventory!");
+        if (!_inventory) Debug.LogError("Player doesn't have an inventory!");
 
-        animator = GetComponentInChildren<Animator>();
+        _animator = GetComponentInChildren<Animator>();
 
-        if (!animator) Debug.LogError("Player doesn't have an Animator!");
+        if (!_animator) Debug.LogError("Player doesn't have an Animator!");
 
-        stateMachine = new StateMachine<IPlayerState>();
+        _stateMachine = new StateMachine<IPlayerState>();
 
-        PlayerNormalState normalState = new PlayerNormalState(this, inventoryUIToggleEvent);
-        PlayerHijackState hijackState = new PlayerHijackState(this, inventoryUIToggleEvent);
+        PlayerNormalState normalState = new PlayerNormalState(this, _inventoryUIToggleEvent);
+        PlayerHijackState hijackState = new PlayerHijackState(this, _inventoryUIToggleEvent);
         PlayerInteractionState interactionState = new PlayerInteractionState(this);
 
-        stateMachine.SetState(normalState);
+        _stateMachine.SetState(normalState);
 
-        stateMachine.AddTransition(normalState, hijackState, () => CurrentHijack != null, OnNormalHijackStateSwap);
-        stateMachine.AddTransition(hijackState, normalState, () => CurrentHijack == null, OnNormalHijackStateSwap);
+        _stateMachine.AddTransition(normalState, hijackState, () => CurrentHijack != null, OnNormalHijackStateSwap);
+        _stateMachine.AddTransition(hijackState, normalState, () => CurrentHijack == null, OnNormalHijackStateSwap);
 
-        stateMachine.AddTransition(normalState, interactionState, () => CurrentInteraction != null || IsAnalysingItem);
-        stateMachine.AddTransition(interactionState, normalState, () => CurrentInteraction == null && CurrentHijack == null && !IsAnalysingItem);
+        _stateMachine.AddTransition(normalState, interactionState, () => CurrentInteraction != null || IsAnalysingItem);
+        _stateMachine.AddTransition(interactionState, normalState, () => CurrentInteraction == null && CurrentHijack == null && !IsAnalysingItem);
 
-        stateMachine.AddTransition(hijackState, interactionState, () => CurrentInteraction != null || IsAnalysingItem);
-        stateMachine.AddTransition(interactionState, hijackState, () => CurrentInteraction == null && CurrentHijack != null && !IsAnalysingItem);
+        _stateMachine.AddTransition(hijackState, interactionState, () => CurrentInteraction != null || IsAnalysingItem);
+        _stateMachine.AddTransition(interactionState, hijackState, () => CurrentInteraction == null && CurrentHijack != null && !IsAnalysingItem);
     }
 
-    private void FixedUpdate() => stateMachine.PhysicsTick();
+    private void FixedUpdate() => _stateMachine.PhysicsTick();
 
-    private void Update() => stateMachine.Tick();
+    private void Update() => _stateMachine.Tick();
 
     private void OnNormalHijackStateSwap()
     {
-        onHijackChangeEvent.Raise();
+        _onHijackChangeEvent.Raise();
         CurrentCamera.GetComponent<AudioListener>().enabled = false;
     }
 

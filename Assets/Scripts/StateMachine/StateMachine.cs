@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class StateMachine<T> where T : IState
 {
-    private Dictionary<Type, List<StateTransition>> transitions;
+    private Dictionary<Type, List<StateTransition>> _transitions;
 
     public T CurrentState { get; private set; }
 
     public StateMachine()
     {
-        transitions = new Dictionary<Type, List<StateTransition>>();
+        _transitions = new Dictionary<Type, List<StateTransition>>();
     }
 
     public void PhysicsTick()
@@ -48,13 +48,13 @@ public class StateMachine<T> where T : IState
     public void AddTransition(IState origin, IState destination, Func<bool> condition, Action action = null)
     {
         Type originType = origin.GetType();
-        bool isListed = transitions
+        bool isListed = _transitions
             .TryGetValue(originType, out List<StateTransition> stateTransitions);
 
         if (!isListed)
         {
             stateTransitions = new List<StateTransition>();
-            transitions[originType] = stateTransitions;
+            _transitions[originType] = stateTransitions;
         }
 
         stateTransitions.Add(new StateTransition(destination, condition, action));
@@ -64,9 +64,9 @@ public class StateMachine<T> where T : IState
     {
         Type stateType = CurrentState.GetType();
 
-        if (transitions.ContainsKey(stateType))
+        if (_transitions.ContainsKey(stateType))
         {
-            List<StateTransition> availableTransitions = transitions[stateType];
+            List<StateTransition> availableTransitions = _transitions[stateType];
 
             for (int i = 0; i < availableTransitions.Count; i++)
             {

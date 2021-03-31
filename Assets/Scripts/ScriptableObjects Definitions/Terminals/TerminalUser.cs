@@ -1,45 +1,41 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Terminals/Terminal User", order = 2)]
+[CreateAssetMenu(menuName = "Game/Terminals/Terminal User", order = 2)]
 public class TerminalUser : ScriptableObject
 {
-    [SerializeField]
     [ReadOnly]
-    private bool isUnlocked = false;
+    [SerializeField] private bool _isUnlocked = false;
 
-    [SerializeField]
-    private string userName;
+    [SerializeField] private string _userName;
 
-    [SerializeField]
-    private string password;
+    [SerializeField] private string _password;
 
-    [SerializeField]
-    private TerminalCommunication[] communications;
+    [SerializeField] private TerminalCommunication[] _communications;
 
-    public string Id => userName.Replace(" ", "").ToLower();
-    public TerminalCommunication[] Communications => communications;
+    public string Id => _userName.Replace(" ", "").ToLower();
+    public TerminalCommunication[] Communications => _communications;
 
-    public bool IsUnlocked => isUnlocked;
+    public bool IsUnlocked => _isUnlocked;
 
     private void Awake()
     {
-        isUnlocked = false;
+        _isUnlocked = false;
     }
 
     public bool Unlock(string inPassword)
     {
-        if (isUnlocked)
-            Debug.LogWarning($"{userName} was already unlocked and yet Unlock() was called.");
+        if (_isUnlocked)
+            Debug.LogWarning($"{_userName} was already unlocked and yet Unlock() was called.");
         else
-            isUnlocked = password == inPassword;
+            _isUnlocked = _password == inPassword;
 
-        return isUnlocked;
+        return _isUnlocked;
     }
 
     public override string ToString()
     {
-        string value = $"{userName} ({Id}) ";
+        string value = $"{_userName} ({Id}) ";
 
         if (IsUnlocked)
         {
@@ -55,6 +51,6 @@ public class TerminalUser : ScriptableObject
 
     public void Reset()
     {
-        isUnlocked = false;
+        _isUnlocked = false;
     }
 }

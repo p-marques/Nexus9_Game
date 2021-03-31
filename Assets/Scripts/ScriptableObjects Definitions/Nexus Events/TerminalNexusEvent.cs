@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Nexus Events/Terminal Event", order = 4)]
+[CreateAssetMenu(menuName = "Game/Nexus Events/Terminal Event", order = 4)]
 public class TerminalNexusEvent : NexusEvent<ITerminal>
 {
 

@@ -2,7 +2,7 @@
 
 public class PlayerInteractionState : IPlayerState
 {
-    private Player playerRef;
+    private Player _playerRef;
 
     public CharacterController CurrentControlledCharacter => null;
     public Camera CurrentControlledCamera => null;
@@ -10,7 +10,7 @@ public class PlayerInteractionState : IPlayerState
 
     public PlayerInteractionState(Player player)
     {
-        playerRef = player;
+        _playerRef = player;
     }
 
     public void OnEnter()
@@ -27,7 +27,7 @@ public class PlayerInteractionState : IPlayerState
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            playerRef.CurrentInteraction = null;
+            _playerRef.CurrentInteraction = null;
         }
     }
 

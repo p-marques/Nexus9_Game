@@ -4,10 +4,10 @@ public class PlayerNormalState : IPlayerState
 {
     private const float FORCED_GRAVITY = 20f;
 
-    private readonly Player playerRef;
-    private readonly NexusEvent onToggleInventoryUIShow;
-    private float inputForward;
-    private float inputStrafe;
+    private readonly Player _playerRef;
+    private readonly NexusEvent _onToggleInventoryUIShow;
+    private float _inputForward;
+    private float _inputStrafe;
 
     private Vector3 GroundDetectionPoint =>
         CurrentControlledCharacter.transform.position;
@@ -20,7 +20,7 @@ public class PlayerNormalState : IPlayerState
     {
         get
         {
-            Collider[] collisions = Physics.OverlapSphere(GroundDetectionPoint, playerRef.GroundDetectionRadius, playerRef.GroundDetectionLayer);
+            Collider[] collisions = Physics.OverlapSphere(GroundDetectionPoint, _playerRef.GroundDetectionRadius, _playerRef.GroundDetectionLayer);
 
             if (collisions.Length > 0)
                 return true;
@@ -31,15 +31,15 @@ public class PlayerNormalState : IPlayerState
 
     public PlayerNormalState(Player player, NexusEvent toggleInventoryUIEvent)
     {
-        playerRef = player;
+        _playerRef = player;
 
-        onToggleInventoryUIShow = toggleInventoryUIEvent;
+        _onToggleInventoryUIShow = toggleInventoryUIEvent;
     }
 
     public virtual void OnEnter() 
     {
-        CurrentControlledCamera = playerRef.GetComponentInChildren<Camera>();
-        CurrentControlledCharacter = playerRef.GetComponent<CharacterController>();
+        CurrentControlledCamera = _playerRef.GetComponentInChildren<Camera>();
+        CurrentControlledCharacter = _playerRef.GetComponent<CharacterController>();
         CurrentControlledCamera.GetComponent<AudioListener>().enabled = true;
     }
 
@@ -49,9 +49,9 @@ public class PlayerNormalState : IPlayerState
 
         Transform transform = CurrentControlledCharacter.transform;
 
-        Vector3 moveDirection = transform.right * inputStrafe + transform.forward * inputForward;
+        Vector3 moveDirection = transform.right * _inputStrafe + transform.forward * _inputForward;
 
-        moveDirection *= playerRef.MoveSpeed * Time.fixedDeltaTime;
+        moveDirection *= _playerRef.MoveSpeed * Time.fixedDeltaTime;
 
         if (!IsGrounded)
         {
@@ -63,22 +63,22 @@ public class PlayerNormalState : IPlayerState
 
     public virtual void Tick()
     {
-        inputForward = Input.GetAxis("Forward");
-        inputStrafe = Input.GetAxis("Strafe");
+        _inputForward = Input.GetAxis("Forward");
+        _inputStrafe = Input.GetAxis("Strafe");
 
-        playerRef.Animator.SetFloat("MovementForward", inputForward);
-        playerRef.Animator.SetFloat("MovementStrafe", inputStrafe);
+        _playerRef.Animator.SetFloat("MovementForward", _inputForward);
+        _playerRef.Animator.SetFloat("MovementStrafe", _inputStrafe);
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            playerRef.Animator.SetTrigger("HijackToggle");
+            _playerRef.Animator.SetTrigger("HijackToggle");
         }
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (!onToggleInventoryUIShow) return;
+            if (!_onToggleInventoryUIShow) return;
 
-            onToggleInventoryUIShow.Raise();
+            _onToggleInventoryUIShow.Raise();
         }
     }
 

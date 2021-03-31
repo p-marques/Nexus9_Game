@@ -3,24 +3,23 @@ using UnityEngine.Events;
 
 public class NexusEventListener : MonoBehaviour
 {
-    [SerializeField]
-    private NexusEvent nexusEvent;
+    [SerializeField] private NexusEvent _nexusEvent;
 
     [SerializeField]
-    private UnityEvent response;
+    private UnityEvent _response;
 
     private void OnEnable()
     {
-        nexusEvent.Subscribe(this);
+        _nexusEvent.Subscribe(this);
     }
 
     private void OnDisable()
     {
-        nexusEvent.Unsubscribe(this);
+        _nexusEvent.Unsubscribe(this);
     }
 
     public void OnEventRaised()
     {
-        response.Invoke();
+        _response.Invoke();
     }
 }

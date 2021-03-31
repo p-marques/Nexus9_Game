@@ -1,31 +1,27 @@
 ﻿using NaughtyAttributes;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Terminals/Terminal Control System", order = 4)]
+[CreateAssetMenu(menuName = "Game/Terminals/Terminal Control System", order = 4)]
 public class TerminalCS : ScriptableObject
 {
-    [SerializeField]
-    private string controlSystemName;
+    [SerializeField] private string _controlSystemName;
 
-    [SerializeField]
     [ReadOnly]
-    private bool isEngaged;
+    [SerializeField] private bool _isEngaged;
 
-    public string Name => controlSystemName;
+    public string Name => _controlSystemName;
 
     public bool IsEngaged
     {
-        get => isEngaged;
+        get => _isEngaged;
         set
         {
-            isEngaged = value;
+            _isEngaged = value;
         }
     }
 
     public void Reset()
     {
-        isEngaged = false;
+        _isEngaged = false;
     }
 }

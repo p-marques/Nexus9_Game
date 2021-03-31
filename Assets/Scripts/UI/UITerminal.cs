@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class UITerminal : MonoBehaviour
 {
@@ -12,132 +11,121 @@ public class UITerminal : MonoBehaviour
     private const float LINE_BY_LINE_INTERVAL = 0.5f;
 
     [Header("Bios Post")]
-    [SerializeField]
-    private GameObject biosPostWrapper;
+    [SerializeField] private GameObject _biosPostWrapper;
 
-    [SerializeField]
-    private GameObject biosPostTerrellHeader;
+    [SerializeField] private GameObject _biosPostTerrellHeader;
 
-    [SerializeField]
-    private TextMeshProUGUI biosPostMainField;
+    [SerializeField] private TextMeshProUGUI _biosPostMainField;
 
-    [SerializeField]
-    private TextMeshProUGUI biosPostSecondaryField;
+    [SerializeField] private TextMeshProUGUI _biosPostSecondaryField;
 
     [Header("Splash Screen")]
-    [SerializeField]
-    private GameObject splashScreenWrapper;
+    [SerializeField] private GameObject _splashScreenWrapper;
 
-    [SerializeField]
-    private GameObject tLinkVersionField;
+    [SerializeField] private GameObject _tLinkVersionField;
 
     [Header("Console")]
-    [SerializeField]
-    private GameObject consoleWrapper;
+    [SerializeField] private GameObject _consoleWrapper;
 
-    [SerializeField]
-    private TextMeshProUGUI consoleOutput;
+    [SerializeField] private TextMeshProUGUI _consoleOutput;
 
-    [SerializeField]
-    private GameObject userInputWrapper;
+    [SerializeField] private GameObject _userInputWrapper;
 
-    [SerializeField]
-    private TextMeshProUGUI userInputIdentifier;
+    [SerializeField] private TextMeshProUGUI _userInputIdentifier;
 
-    [SerializeField]
-    private TMP_InputField inputField;
+    [SerializeField] private TMP_InputField _inputField;
 
-    private ITerminal currentTerminal;
-    private TLink tLink;
-    private bool isBusyWritting;
-    private bool isBusyProcessing;
-    private WaitUntil waitUntilNotBusyWritting;
-    private WaitUntil waitUntilNotBusyProcessing;
-    private WaitForSeconds waitBetweenPages;
-    private WaitForSeconds waitBiosInterval;
+    private ITerminal _currentTerminal;
+    private TLink _tLink;
+    private bool _isBusyWritting;
+    private bool _isBusyProcessing;
+    private WaitUntil _waitUntilNotBusyWritting;
+    private WaitUntil _waitUntilNotBusyProcessing;
+    private WaitForSeconds _waitBetweenPages;
+    private WaitForSeconds _waitBiosInterval;
 
     private void Awake()
     {
-        waitUntilNotBusyWritting = new WaitUntil(() => isBusyWritting == false);
-        waitUntilNotBusyProcessing = new WaitUntil(() => isBusyProcessing == false);
-        waitBetweenPages = new WaitForSeconds(PAGE_TO_PAGE_INTERVAL);
-        waitBiosInterval = new WaitForSeconds(LINE_BY_LINE_INTERVAL);
-        tLink = new TLink();
+        _waitUntilNotBusyWritting = new WaitUntil(() => _isBusyWritting == false);
+        _waitUntilNotBusyProcessing = new WaitUntil(() => _isBusyProcessing == false);
+        _waitBetweenPages = new WaitForSeconds(PAGE_TO_PAGE_INTERVAL);
+        _waitBiosInterval = new WaitForSeconds(LINE_BY_LINE_INTERVAL);
+        _tLink = new TLink();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && currentTerminal != null)
+        if (Input.GetKeyDown(KeyCode.Escape) && _currentTerminal != null)
         {
             ShutDown();
         }
         
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            if (inputField.text.Length > 0)
+            if (_inputField.text.Length > 0)
                 ProcessInput();
         }
     }
 
     public void OnTerminalChange(ITerminal terminal)
     {
-        currentTerminal = terminal;
-        tLink.Data = terminal.TerminalData;
+        _currentTerminal = terminal;
+        _tLink.Data = terminal.TerminalData;
 
         StartCoroutine(BootUpTerminal());
     }
 
     private void ProcessInput()
     {
-        string input = inputField.text;
+        string input = _inputField.text;
 
         DisableInput();
 
-        inputField.text = "";
+        _inputField.text = "";
 
-        WriteLine(consoleOutput, "> " + input + "\n", true);
+        WriteLine(_consoleOutput, "> " + input + "\n", true);
 
-        WriteLine(consoleOutput, tLink.HandleInput(input), false);
+        WriteLine(_consoleOutput, _tLink.HandleInput(input), false);
 
         EnableInput();
     }
 
     private IEnumerator BootUpTerminal()
     {
-        biosPostMainField.text = "";
-        biosPostSecondaryField.text = "";
+        _biosPostMainField.text = "";
+        _biosPostSecondaryField.text = "";
 
-        biosPostWrapper.SetActive(true);
+        _biosPostWrapper.SetActive(true);
 
-        yield return waitBiosInterval;
+        yield return _waitBiosInterval;
 
-        biosPostTerrellHeader.SetActive(true);
+        _biosPostTerrellHeader.SetActive(true);
 
-        yield return waitBiosInterval;
+        yield return _waitBiosInterval;
 
-        StartCoroutine(WriteLineByLine(biosPostMainField, tLink.GetBiosPostMain(), LINE_BY_LINE_INTERVAL, true));
+        StartCoroutine(WriteLineByLine(_biosPostMainField, _tLink.GetBiosPostMain(), LINE_BY_LINE_INTERVAL, true));
 
-        yield return waitUntilNotBusyWritting;
+        yield return _waitUntilNotBusyWritting;
 
-        biosPostSecondaryField.text = tLink.GetBiosPostSecondary();
+        _biosPostSecondaryField.text = _tLink.GetBiosPostSecondary();
 
-        yield return waitBetweenPages;
+        yield return _waitBetweenPages;
 
-        biosPostWrapper.SetActive(false);
+        _biosPostWrapper.SetActive(false);
 
-        splashScreenWrapper.SetActive(true);
+        _splashScreenWrapper.SetActive(true);
 
-        tLinkVersionField.SetActive(true);
+        _tLinkVersionField.SetActive(true);
 
-        yield return waitBetweenPages;
+        yield return _waitBetweenPages;
 
-        splashScreenWrapper.SetActive(false);
+        _splashScreenWrapper.SetActive(false);
 
-        consoleWrapper.SetActive(true);
+        _consoleWrapper.SetActive(true);
 
-        StartCoroutine(WriteLineByLine(consoleOutput, tLink.GetConsoleBoot(), LINE_BY_LINE_INTERVAL, true));
+        StartCoroutine(WriteLineByLine(_consoleOutput, _tLink.GetConsoleBoot(), LINE_BY_LINE_INTERVAL, true));
 
-        yield return waitUntilNotBusyWritting;
+        yield return _waitUntilNotBusyWritting;
 
         EnableInput();
     }
@@ -153,7 +141,7 @@ public class UITerminal : MonoBehaviour
     private IEnumerator WriteLineByLine(TextMeshProUGUI field, 
         LinkedList<string> values, float interval, bool clearField)
     {
-        isBusyWritting = true;
+        _isBusyWritting = true;
 
         WaitForSeconds wait = new WaitForSeconds(interval);
         LinkedListNode<string> node;
@@ -171,7 +159,7 @@ public class UITerminal : MonoBehaviour
 
                 StartCoroutine(Processing(field, split[1]));
 
-                yield return waitUntilNotBusyProcessing;
+                yield return _waitUntilNotBusyProcessing;
             }
             else
                 field.text += node.Value;
@@ -179,12 +167,12 @@ public class UITerminal : MonoBehaviour
             yield return wait;
         }
 
-        isBusyWritting = false;
+        _isBusyWritting = false;
     }
 
     private IEnumerator Processing(TextMeshProUGUI field, string finishedText)
     {
-        isBusyProcessing = true;
+        _isBusyProcessing = true;
 
         WaitForSeconds wait = new WaitForSeconds(PROCESSING_TIME / PROCESSING_DOTS);
 
@@ -197,34 +185,34 @@ public class UITerminal : MonoBehaviour
 
         field.text += finishedText;
 
-        isBusyProcessing = false;
+        _isBusyProcessing = false;
     }
 
     private void EnableInput()
     {
-        userInputIdentifier.text = tLink.ConsoleTypeIndicator;
+        _userInputIdentifier.text = _tLink.ConsoleTypeIndicator;
 
-        userInputWrapper.SetActive(true);
+        _userInputWrapper.SetActive(true);
 
-        inputField.Select();
-        inputField.ActivateInputField();
+        _inputField.Select();
+        _inputField.ActivateInputField();
     }
 
     private void DisableInput()
     {
-        inputField.DeactivateInputField(true);
+        _inputField.DeactivateInputField(true);
 
-        userInputWrapper.SetActive(false);
+        _userInputWrapper.SetActive(false);
     }
 
     private void ShutDown()
     {
         StopAllCoroutines();
 
-        biosPostWrapper.SetActive(false);
-        splashScreenWrapper.SetActive(false);
-        consoleWrapper.SetActive(false);
-        tLinkVersionField.SetActive(false);
-        userInputWrapper.SetActive(false);
+        _biosPostWrapper.SetActive(false);
+        _splashScreenWrapper.SetActive(false);
+        _consoleWrapper.SetActive(false);
+        _tLinkVersionField.SetActive(false);
+        _userInputWrapper.SetActive(false);
     }
 }

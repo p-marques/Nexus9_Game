@@ -1,25 +1,24 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Variables/Interactable Variable")]
+[CreateAssetMenu(menuName = "Game/Variables/Interactable Variable")]
 public class IInteractableVariable : ScriptableObject
 {
-    private IInteractable value;
+    private IInteractable _value;
 
-    [SerializeField]
     [Tooltip("Event raised on value change")]
-    private NexusEvent<IInteractable> eventOnValueChanged;
+    [SerializeField] private NexusEvent<IInteractable> _eventOnValueChanged;
 
     public IInteractable Value
     {
-        get => value;
+        get => _value;
 
         set
         {
-            if (this.value != value)
+            if (this._value != value)
             {
-                this.value = value;
+                this._value = value;
 
-                if (eventOnValueChanged) eventOnValueChanged.Raise(this.value);
+                if (_eventOnValueChanged) _eventOnValueChanged.Raise(this._value);
             }
         }
     }

@@ -7,16 +7,14 @@ public class Door : InteractableWithRequirements, IInteractable
     private const string INTERACTION_TEXT = "Door";
 
     [Header("Toggle Requirement")]
-    [SerializeField]
-    private bool needsToBeUnlocked;
+    [SerializeField] private bool _needsToBeUnlocked;
 
-    [SerializeField]
     [ShowIf("needsToBeUnlocked")]
     [Tooltip("Toggle to lock/unlock door")]
-    private Toggle toggle;
+    [SerializeField] private Toggle _toggle;
 
-    private bool isOpen;
-    private Animator animator;
+    private bool _isOpen;
+    private Animator _animator;
 
     public string InteractionText => INTERACTION_TEXT;
 
@@ -24,7 +22,7 @@ public class Door : InteractableWithRequirements, IInteractable
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     public void Interact(Player player)
@@ -35,22 +33,22 @@ public class Door : InteractableWithRequirements, IInteractable
             return;
         }
 
-        isOpen = !isOpen;
+        _isOpen = !_isOpen;
 
-        animator.SetBool("IsOpen", isOpen);
+        _animator.SetBool("IsOpen", _isOpen);
     }
 
     private bool CheckToggle()
     {
-        if (needsToBeUnlocked)
+        if (_needsToBeUnlocked)
         {
-            if (!toggle)
+            if (!_toggle)
             {
                 Debug.LogError("Door needs toggle but no toggle is referenced.");
                 return true;
             }
 
-            return toggle.IsOn;
+            return _toggle.IsOn;
         }
 
         return true;

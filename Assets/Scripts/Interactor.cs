@@ -4,29 +4,28 @@ public class Interactor : MonoBehaviour
 {
     private const float RAYCAST_DISTANCE = 30f;
 
-    [SerializeField]
-    private IInteractableVariable currentInteractable;
+    [SerializeField] private IInteractableVariable _currentInteractable;
     
-    private Player playerRef;
+    private Player _playerRef;
 
     private void Awake()
     {
-        playerRef = GetComponent<Player>();
+        _playerRef = GetComponent<Player>();
 
-        if (!playerRef)
+        if (!_playerRef)
             Debug.LogError("Interactor failed to find component Player!");
     }
 
     private void Update()
     {
-        if (!playerRef.CurrentCamera)
+        if (!_playerRef.CurrentCamera)
         {
-            currentInteractable.Value = null;
+            _currentInteractable.Value = null;
 
             return;
         }
 
-        Transform cameraTransform = playerRef.CurrentCamera.transform;
+        Transform cameraTransform = _playerRef.CurrentCamera.transform;
         IInteractable hitInteractable = null;
 
         bool hasHit = Physics.Raycast(cameraTransform.position, cameraTransform.forward, 
@@ -42,11 +41,11 @@ public class Interactor : MonoBehaviour
             }
         }
 
-        currentInteractable.Value = hitInteractable;
+        _currentInteractable.Value = hitInteractable;
 
-        if (currentInteractable.Value != null && Input.GetKeyDown(KeyCode.E))
+        if (_currentInteractable.Value != null && Input.GetKeyDown(KeyCode.E))
         {
-            currentInteractable.Value.Interact(playerRef);
+            _currentInteractable.Value.Interact(_playerRef);
         }
     }
 }

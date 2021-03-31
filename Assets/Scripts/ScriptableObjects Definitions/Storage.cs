@@ -1,36 +1,34 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Storage")]
+[CreateAssetMenu(menuName = "Game/Storage/New Storage")]
 public class Storage : ScriptableObject
 {
     private const int SPACE = 5;
 
-    [SerializeField]
-    private Item[] items;
+    [SerializeField] private Item[] _items;
 
-    [SerializeField]
     [Tooltip("Event raised every time an item is added or removed")]
-    private NexusEvent eventOnContentChanged;
+    [SerializeField] private NexusEvent _eventOnContentChanged;
 
-    public IReadOnlyList<Item> Items => items;
+    public IReadOnlyList<Item> Items => _items;
 
     public int Space => SPACE;
 
     private void OnEnable()
     {
-        items = new Item[SPACE];
+        _items = new Item[SPACE];
     }
 
     public bool AddItem(Item inItem)
     {
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < _items.Length; i++)
         {
-            if (items[i] == null)
+            if (_items[i] == null)
             {
-                items[i] = inItem;
+                _items[i] = inItem;
 
-                if (eventOnContentChanged) eventOnContentChanged.Raise();
+                if (_eventOnContentChanged) _eventOnContentChanged.Raise();
 
                 return true;
             }
@@ -41,22 +39,22 @@ public class Storage : ScriptableObject
 
     public void RemoveItem(Item inItem)
     {
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < _items.Length; i++)
         {
-            if (items[i] == inItem)
+            if (_items[i] == inItem)
             {
-                items[i] = null;
+                _items[i] = null;
 
-                if (eventOnContentChanged) eventOnContentChanged.Raise();
+                if (_eventOnContentChanged) _eventOnContentChanged.Raise();
             }
         }
     }
 
     public bool HasItem(Item inItem)
     {
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < _items.Length; i++)
         {
-            if (items[i] == inItem)
+            if (_items[i] == inItem)
                 return true;
         }
 

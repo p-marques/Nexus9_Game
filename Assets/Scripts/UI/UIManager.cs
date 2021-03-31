@@ -1,15 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]
-    private RawImage hijackView;
+    [SerializeField] private RawImage _hijackView;
 
     public void ToggleHijackView()
     {
-        hijackView.enabled = !hijackView.enabled;
+        _hijackView.enabled = !_hijackView.enabled;
     }
 }

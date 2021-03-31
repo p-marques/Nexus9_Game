@@ -1,23 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Audio;
+﻿using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    private AudioSource audioSource;
+    private AudioSource _audioSource;
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void PlaySound(AudioClip clip)
     {
-        if (!audioSource.isPlaying)
+        if (!_audioSource.isPlaying)
         {
-            audioSource.clip = clip;
-            audioSource.Play();
+            _audioSource.clip = clip;
+            _audioSource.Play();
         }
     }
 }

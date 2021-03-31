@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class UIAnalyser : MonoBehaviour
 {
@@ -15,25 +14,21 @@ public class UIAnalyser : MonoBehaviour
     private const float ITEM_NAME_DISPLAY_TIME = 2f;
     private const byte ITEM_NAME_DISPLAY_STEPS = 4;
 
-    [SerializeField]
-    private GameObject panel;
+    [SerializeField] private GameObject _panel;
 
-    [SerializeField]
-    private TextMeshProUGUI textField;
+    [SerializeField] private TextMeshProUGUI _textField;
 
-    [SerializeField]
-    private TextMeshProUGUI itemNameField;
+    [SerializeField] private TextMeshProUGUI _itemNameField;
 
-    [SerializeField]
-    private Image fillBar;
+    [SerializeField] private Image _fillBar;
 
-    private bool isWorking;
+    private bool _isWorking;
 
     public void StartAnalyser(IInteractableItem interactableItem)
     {
-        if (!isWorking)
+        if (!_isWorking)
         {
-            isWorking = true;
+            _isWorking = true;
             StartCoroutine(AnalyseCR(interactableItem));
         }
     }
@@ -44,29 +39,29 @@ public class UIAnalyser : MonoBehaviour
         YieldInstruction wait = new WaitForSeconds(ANALYSING_TIME / ANALYSING_STEPS);
         float fillStepIncrease = 1f / ANALYSING_STEPS;
         
-        textField.text = ANALYSING_TEXT;
-        itemNameField.text = "";
-        fillBar.fillAmount = 0f;
+        _textField.text = ANALYSING_TEXT;
+        _itemNameField.text = "";
+        _fillBar.fillAmount = 0f;
 
-        panel.SetActive(true);
+        _panel.SetActive(true);
 
         for (int i = 0; i < ANALYSING_STEPS; i++)
         {
-            textField.text += ".";
+            _textField.text += ".";
 
-            fillBar.fillAmount += fillStepIncrease;
+            _fillBar.fillAmount += fillStepIncrease;
 
             yield return wait;
         }
 
-        textField.text += DONE_TEXT;
-        itemNameField.text = ID_TEXT;
+        _textField.text += DONE_TEXT;
+        _itemNameField.text = ID_TEXT;
 
         wait = new WaitForSeconds(DONE_EXTRA_TIME / itemName.Length);
 
         for (int i = 0; i < itemName.Length; i++)
         {
-            itemNameField.text += itemName[i];
+            _itemNameField.text += itemName[i];
 
             yield return wait;
         }
@@ -75,14 +70,14 @@ public class UIAnalyser : MonoBehaviour
 
         for (int i = 0; i < ITEM_NAME_DISPLAY_STEPS; i++)
         {
-            itemNameField.alpha = itemNameField.alpha == 0f ? 1f : 0f;
+            _itemNameField.alpha = _itemNameField.alpha == 0f ? 1f : 0f;
 
             yield return wait;
         }
 
-        panel.SetActive(false);
+        _panel.SetActive(false);
 
-        isWorking = false;
+        _isWorking = false;
 
         interactableItem.HasBeenAnalysed = true;
     }

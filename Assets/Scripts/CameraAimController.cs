@@ -2,23 +2,20 @@
 
 public class CameraAimController : MonoBehaviour
 {
-    [SerializeField]
     [Range(10, 300)]
-    private float mouseSensitivity = 230f;
+    [SerializeField] private float _mouseSensitivity = 230f;
 
-    [SerializeField]
-    private float maxLookUpRotation = 80f;
+    [SerializeField] private float _maxLookUpRotation = 80f;
 
-    [SerializeField]
-    private float maxLookDownRotation = 60f;
+    [SerializeField] private float _maxLookDownRotation = 60f;
 
-    private Player playerRef;
-    private float inputMouseX;
-    private float inputMouseY;
+    private Player _playerRef;
+    private float _inputMouseX;
+    private float _inputMouseY;
 
     private void Awake()
     {
-        playerRef = GetComponent<Player>();
+        _playerRef = GetComponent<Player>();
     }
 
     private void Start()
@@ -28,9 +25,9 @@ public class CameraAimController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!playerRef.CurrentCamera) return;
+        if (!_playerRef.CurrentCamera) return;
 
-        Transform camTransform = playerRef.CurrentCamera.transform;
+        Transform camTransform = _playerRef.CurrentCamera.transform;
 
         HandleCameraPitch(camTransform);
 
@@ -39,23 +36,23 @@ public class CameraAimController : MonoBehaviour
 
     private void Update()
     {
-        inputMouseX = Input.GetAxis("Mouse X");
-        inputMouseY = Input.GetAxis("Mouse Y");
+        _inputMouseX = Input.GetAxis("Mouse X");
+        _inputMouseY = Input.GetAxis("Mouse Y");
     }
 
     private void HandleCameraPitch(Transform camTransform)
     {
         Vector3 cameraRotation = camTransform.localRotation.eulerAngles;
         
-        cameraRotation.x -= inputMouseY * mouseSensitivity * Time.fixedDeltaTime;
+        cameraRotation.x -= _inputMouseY * _mouseSensitivity * Time.fixedDeltaTime;
 
         if (cameraRotation.x > 180f)
         {
-            cameraRotation.x = Mathf.Max(cameraRotation.x, 360f - maxLookUpRotation);
+            cameraRotation.x = Mathf.Max(cameraRotation.x, 360f - _maxLookUpRotation);
         }
         else
         {
-            cameraRotation.x = Mathf.Min(cameraRotation.x, maxLookDownRotation);
+            cameraRotation.x = Mathf.Min(cameraRotation.x, _maxLookDownRotation);
         }
 
         camTransform.localRotation = Quaternion.Euler(cameraRotation.x, 0f, 0f);
@@ -63,6 +60,6 @@ public class CameraAimController : MonoBehaviour
 
     private void HandleParentRotation(Transform camTransform)
     {
-        camTransform.parent.Rotate(Vector3.up * inputMouseX * Time.fixedDeltaTime * mouseSensitivity);
+        camTransform.parent.Rotate(Vector3.up * _inputMouseX * Time.fixedDeltaTime * _mouseSensitivity);
     }
 }

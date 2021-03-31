@@ -6,37 +6,35 @@ public class Terminal : InteractableWithRequirements, ITerminal
     private const float RANGE = 3f;
     private const string INTERACTION_TEXT = "Terminal";
 
-    [SerializeField]
-    private TerminalData terminalData;
+    [SerializeField] private TerminalData _terminalData;
 
     [Header("Events")]
     [Tooltip("Event raised when interactions begins")]
-    [SerializeField]
-    private NexusEvent<ITerminal> onInteractionStartEvent;
+    [SerializeField] private NexusEvent<ITerminal> _onInteractionStartEvent;
 
     public float Range => RANGE;
 
     public string InteractionText => INTERACTION_TEXT;
 
-    public TerminalData TerminalData => terminalData;
+    public TerminalData TerminalData => _terminalData;
 
     private void Awake()
     {
-        if (!terminalData)
+        if (!_terminalData)
         {
             Debug.LogError("Terminal doens't have terminal data.");
 
             return;
         }
 
-        for (int i = 0; i < terminalData.ControlSystems.Length; i++)
+        for (int i = 0; i < _terminalData.ControlSystems.Length; i++)
         {
-            terminalData.ControlSystems[i].Reset();
+            _terminalData.ControlSystems[i].Reset();
         }
 
-        for (int i = 0; i < terminalData.Users.Length; i++)
+        for (int i = 0; i < _terminalData.Users.Length; i++)
         {
-            terminalData.Users[i].Reset();
+            _terminalData.Users[i].Reset();
         }
     }
 
@@ -54,6 +52,6 @@ public class Terminal : InteractableWithRequirements, ITerminal
 
         player.CurrentInteraction = this;
 
-        onInteractionStartEvent.Raise(this);
+        _onInteractionStartEvent.Raise(this);
     }
 }
